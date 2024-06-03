@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 import defaultTheme from "tailwindcss/defaultTheme";
-import config from './theme.config.json';
+import config from "./theme.config.json";
 
 export default {
   content: ["./app.vue"],
