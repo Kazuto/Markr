@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: 'Quicksand';
+    src: url('../Quicksand.ttf') format('truetype');
+    font-style: normal;
+    font-display: swap;
+}
+
+body {
+    @apply bg-base-light font-medium text-base-dark antialiased dark:bg-base-dark dark:text-base-light;
+}
+
