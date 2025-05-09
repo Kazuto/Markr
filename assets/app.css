@@ -1,12 +1,22 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 @font-face {
   font-family: "Quicksand";
   src: url("../Quicksand.ttf") format("truetype");
   font-style: normal;
   font-display: swap;
+}
+
+@theme {
+  --default-font-family: "Quicksand", sans-serif;
+
+  --color-accent-light: #ffca7a;
+  --color-accent-medium: #ff9900;
+  --color-accent-dark: #b36b00;
+
+  --color-base-light: #f2f6fa;
+  --color-base-medium: #437bae;
+  --color-base-dark: #142534;
 }
 
 body {
