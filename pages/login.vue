@@ -1,7 +1,5 @@
 <template>
-  <nuxt-layout>
-    <nuxt-page />
-  </nuxt-layout>
+  <AuthLoginForm />
 </template>
 
 <script setup lang="ts"></script>

@@ -2,21 +2,36 @@ import tailwindcss from "@tailwindcss/vite";
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  auth: {
+    provider: {
+      type: "authjs",
+      trustHost: false,
+      defaultProvider: "github",
+      addDefaultCallbackUrl: true,
+    },
+    sessionRefresh: {
+      enablePeriodically: true,
+      enableOnWindowFocus: true,
+    },
+  },
+
   compatibilityDate: "2025-05-09",
 
   css: ["~/assets/app.css"],
 
-  devServer: { port: 4444 },
+  devServer: { port: Number(process.env.PORT) || 3000 },
   devtools: { enabled: true },
 
-  modules: ["@nuxt/eslint"],
+  modules: ["@nuxt/eslint", "@sidebase/nuxt-auth"],
 
   nitro: {
     compressPublicAssets: true,
   },
 
   runtimeConfig: {
-    databaseUrl: process.env.DATABASE_URL ?? "",
+    authSecret: process.env.AUTH_SECRET ?? "",
+    githubClientId: process.env.GITHUB_CLIENT_ID ?? "",
+    githubClientSecret: process.env.GITHUB_CLIENT_SECRET ?? "",
   },
 
   sourcemap: {
@@ -29,7 +44,7 @@ export default defineNuxtConfig({
   typescript: {
     typeCheck: true,
     strict: true,
-    tsConfig: { include: ["../.eslintrc.*"] },
+    tsConfig: { include: ["../.eslint.config.*"] },
   },
 
   vite: {
