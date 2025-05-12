@@ -14,4 +14,10 @@ export function db() {
 
 export type User = typeof schema.users.$inferSelect;
 
+export type Bookmark = typeof schema.bookmarks.$inferSelect;
+
+export type BookmarkCategory = typeof schema.bookmarkCategories.$inferSelect;
+
+export type Team = typeof schema.teams.$inferSelect;
+
 export type Whitelist = typeof schema.whitelist.$inferSelect;
