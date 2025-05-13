@@ -4,26 +4,28 @@
   "type": "module",
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev",
+    "dev": "bun generate && concurrently 'bun:dev:*'",
+    "dev:nuxt": "nuxt dev",
+    "dev:pocketbase": "pocketbase serve",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "lint": "bun lint:eslint && bun lint:prettier",
-    "lint:eslint": "eslint .",
-    "lint:prettier": "prettier . --check",
-    "lint:fix": "eslint . --fix && prettier --write --list-different ."
+    "lint:eslint": "eslint . --fix",
+    "lint:prettier": "prettier --write --list-different ."
   },
   "dependencies": {
-    "@sidebase/nuxt-auth": "0.10.1",
     "@tailwindcss/vite": "^4.1.5",
     "next-auth": "~4.21.1",
     "nuxt": "^3.11.2",
+    "pocketbase": "0.21",
     "tailwindcss": "^4.1.5",
     "vue": "^3.4.27",
     "vue-router": "^4.3.2"
   },
   "devDependencies": {
     "@nuxt/eslint": "^1.3.0",
+    "concurrently": "^9.1.2",
     "eslint": "^9.4.0",
     "postcss": "^8.4.38",
     "prettier": "^3.3.0",
