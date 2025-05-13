@@ -9,7 +9,16 @@ export default defineNuxtConfig({
   devServer: { port: Number(process.env.PORT) || 3000 },
   devtools: { enabled: true },
 
-  modules: ["@nuxt/eslint"],
+  fontawesome: {
+    component: "fa",
+    suffix: true,
+    icons: {
+      solid: ["cog"],
+      brands: ["github"],
+    },
+  },
+
+  modules: ["@nuxt/eslint", "@vesp/nuxt-fontawesome"],
 
   nitro: {
     compressPublicAssets: true,
@@ -41,3 +50,4 @@ export default defineNuxtConfig({
     plugins: [tailwindcss()],
   },
 });
+
