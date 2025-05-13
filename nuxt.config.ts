@@ -2,6 +2,12 @@ import tailwindcss from "@tailwindcss/vite";
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  app: {
+    head: {
+      title: "Markr",
+    },
+  },
+
   compatibilityDate: "2025-05-09",
 
   css: ["~/assets/app.css"],
@@ -50,4 +56,3 @@ export default defineNuxtConfig({
     plugins: [tailwindcss()],
   },
 });
-
