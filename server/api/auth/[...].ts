@@ -1,5 +1,6 @@
 import GithubProvider from "next-auth/providers/github";
 import { NuxtAuthHandler } from "#auth";
+import type { Account, Profile } from "next-auth";
 
 export default NuxtAuthHandler({
   // A secret string you define, to ensure correct encryption
@@ -12,23 +13,27 @@ export default NuxtAuthHandler({
     }),
   ],
   callbacks: {
-    async signIn({ user, account }) {
-      return await handleSignIn(user, account);
+    async signIn({ account, profile }) {
+      return await handleSignIn(account, profile);
     },
   },
 });
 
-async function handleSignIn(user: any, account: any) {
-  if (!user.email) return false;
+async function handleSignIn(
+  account: Account | null,
+  profile: Profile | undefined,
+) {
+  if (!account) return false;
+  if (!profile || !profile.email) return false;
 
   try {
-    const whitelist = await findWhitelist(user.email);
-
+    const whitelist = await findWhitelist(profile.email);
     if (!whitelist) return false;
 
-    const response = await updateOrCreateUser(user, account);
+    const user = await updateOrCreateUser(account, profile);
+    if (!user) return false;
 
-    await updateWhitelist(whitelist.id, response[0].id);
+    await updateWhitelist(whitelist.id, user.id);
   } catch (error) {
     console.error(error);
     return false;
@@ -37,22 +42,24 @@ async function handleSignIn(user: any, account: any) {
   return true;
 }
 
-async function updateOrCreateUser(user: any, account: any) {
-  return await $fetch("/api/users", {
+async function updateOrCreateUser(account: Account, profile: Profile) {
+  const response = await $fetch("/api/users", {
     method: "POST",
     body: {
-      name: user.name,
-      email: user.email,
+      name: profile.name,
+      email: profile.email,
       oauth_provider: account.provider,
-      oauth_id: user.id,
+      oauth_id: account.providerAccountId,
     },
   });
+
+  return response.find((u) => u.email === profile.email);
 }
 
 async function findWhitelist(email: string) {
-  const whitelist = await $fetch("/api/whitelist");
+  const response = await $fetch("/api/whitelist");
 
-  return whitelist.find((w) => w.email === email);
+  return response.find((w) => w.email === email);
 }
 
 async function updateWhitelist(id: number, userId: number) {
