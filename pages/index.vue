@@ -1,5 +1,5 @@
 <template>
-  <div v-if="data">Hello {{ data.user?.name }}!</div>
+  <div v-if="data">Hello {{ data.username }}!</div>
 </template>
 
 <script setup lang="ts">
