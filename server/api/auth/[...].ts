@@ -11,4 +11,30 @@ export default NuxtAuthHandler({
       clientSecret: useRuntimeConfig().githubClientSecret,
     }),
   ],
+  callbacks: {
+    async signIn({ user }) {
+      return await handleSignIn(user);
+    },
+  },
 });
+
+async function handleSignIn(user: any) {
+  if (!user.email) return false;
+
+  try {
+    const whitelist = await findWhitelist(user.email);
+
+    if (!whitelist) return false;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+
+  return true;
+}
+
+async function findWhitelist(email: string) {
+  const whitelist = await $fetch("/api/whitelist");
+
+  return whitelist.find((w) => w.email === email);
+}
