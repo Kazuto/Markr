@@ -23,4 +23,5 @@ logs
 .env.*
 !.env.example
 
-database.sqlite
+# Pocketbase
+pb_data

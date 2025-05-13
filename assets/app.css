@@ -2,7 +2,7 @@
 
 @font-face {
   font-family: "Quicksand";
-  src: url("../Quicksand.ttf") format("truetype");
+  src: url("./Quicksand.ttf") format("truetype");
   font-style: normal;
   font-display: swap;
 }
@@ -10,15 +10,31 @@
 @theme {
   --default-font-family: "Quicksand", sans-serif;
 
-  --color-accent-light: #ffca7a;
-  --color-accent-medium: #ff9900;
-  --color-accent-dark: #b36b00;
+  --color-primary-50: #fffbea;
+  --color-primary-100: #fff2c5;
+  --color-primary-200: #ffe685;
+  --color-primary-300: #ffd246;
+  --color-primary-400: #ffbd1b;
+  --color-primary-500: #ff9900;
+  --color-primary-600: #e27200;
+  --color-primary-700: #bb4d02;
+  --color-primary-800: #983b08;
+  --color-primary-900: #7c310b;
+  --color-primary-950: #481700;
 
-  --color-base-light: #f2f6fa;
-  --color-base-medium: #437bae;
-  --color-base-dark: #142534;
+  --color-secondary-50: #f4f7fb;
+  --color-secondary-100: #e7eef7;
+  --color-secondary-200: #cbdcec;
+  --color-secondary-300: #9dbedc;
+  --color-secondary-400: #689bc8;
+  --color-secondary-500: #437bae;
+  --color-secondary-600: #336496;
+  --color-secondary-700: #2a517a;
+  --color-secondary-800: #264566;
+  --color-secondary-900: #243c56;
+  --color-secondary-950: #182739;
 }
 
 body {
-  @apply bg-base-light font-medium text-base-dark antialiased dark:bg-base-dark dark:text-base-light;
+  @apply bg-gray-200 font-medium antialiased dark:bg-gray-800;
 }
