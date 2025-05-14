@@ -2,17 +2,15 @@ import PocketBase from "pocketbase";
 import type { RecordListOptions, RecordOptions } from "pocketbase";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
 
-export type CategoryData = {
+export type TeamData = {
   name: string;
-  order: number;
-  color?: string;
-  icon?: string;
+  categories?: string[];
 };
 
-export function categories(client: PocketBase) {
+export function teams(client: PocketBase) {
   const queryClient = useQueryClient();
 
-  const collection = "categories";
+  const collection = "teams";
 
   const page = ref(1);
   const perPage = ref(10);
@@ -34,7 +32,7 @@ export function categories(client: PocketBase) {
 
   const create = (client: PocketBase) =>
     useMutation({
-      mutationFn: (data: CategoryData) =>
+      mutationFn: (data: TeamData) =>
         client.collection(collection).create(data),
     });
 

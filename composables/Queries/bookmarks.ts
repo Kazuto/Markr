@@ -2,17 +2,18 @@ import PocketBase from "pocketbase";
 import type { RecordListOptions, RecordOptions } from "pocketbase";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
 
-export type CategoryData = {
+export type BookmarkData = {
   name: string;
+  url: string;
   order: number;
-  color?: string;
+  categories: string[];
   icon?: string;
 };
 
-export function categories(client: PocketBase) {
+export function bookmarks(client: PocketBase) {
   const queryClient = useQueryClient();
 
-  const collection = "categories";
+  const collection = "bookmarks";
 
   const page = ref(1);
   const perPage = ref(10);
@@ -34,7 +35,7 @@ export function categories(client: PocketBase) {
 
   const create = (client: PocketBase) =>
     useMutation({
-      mutationFn: (data: CategoryData) =>
+      mutationFn: (data: BookmarkData) =>
         client.collection(collection).create(data),
     });
 

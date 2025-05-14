@@ -26,7 +26,6 @@ export function useAuth() {
   };
 
   const credentialSignIn = async (username: string, password: string) => {
-    console.log(username, password);
     try {
       await pb.client.collection("users").authWithPassword(username, password);
 

@@ -1,18 +1,11 @@
 import PocketBase from "pocketbase";
 import type { RecordListOptions, RecordOptions } from "pocketbase";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
+import { useQuery, useQueryClient } from "@tanstack/vue-query";
 
-export type CategoryData = {
-  name: string;
-  order: number;
-  color?: string;
-  icon?: string;
-};
-
-export function categories(client: PocketBase) {
+export function users(client: PocketBase) {
   const queryClient = useQueryClient();
 
-  const collection = "categories";
+  const collection = "users";
 
   const page = ref(1);
   const perPage = ref(10);
@@ -32,17 +25,6 @@ export function categories(client: PocketBase) {
       queryFn: () => client.collection(collection).getOne(id, options),
     });
 
-  const create = (client: PocketBase) =>
-    useMutation({
-      mutationFn: (data: CategoryData) =>
-        client.collection(collection).create(data),
-    });
-
-  const destroy = (client: PocketBase) =>
-    useMutation({
-      mutationFn: (id: string) => client.collection(collection).delete(id),
-    });
-
   onMounted(() => {
     client.collection(collection).subscribe("*", function () {
       queryClient.invalidateQueries({ queryKey: [collection] });
@@ -56,8 +38,6 @@ export function categories(client: PocketBase) {
   return {
     list: (options?: RecordListOptions) => list(client, options),
     get: (id: string, options?: RecordOptions) => get(client, id, options),
-    create: () => create(client),
-    destroy: () => destroy(client),
     page,
     perPage,
   };
