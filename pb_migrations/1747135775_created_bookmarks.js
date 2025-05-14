@@ -66,7 +66,7 @@ migrate(
         {
           system: false,
           id: "kiqcq0gg",
-          name: "bookmark_category",
+          name: "categories",
           type: "relation",
           required: true,
           presentable: false,
@@ -75,7 +75,7 @@ migrate(
             collectionId: "5chb6xqkeq9891y",
             cascadeDelete: true,
             minSelect: null,
-            maxSelect: 1,
+            maxSelect: null,
             displayFields: null,
           },
         },

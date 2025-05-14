@@ -4,7 +4,7 @@ migrate(
       id: "5chb6xqkeq9891y",
       created: "2025-05-13 11:14:57.964Z",
       updated: "2025-05-13 11:24:02.116Z",
-      name: "bookmark_categories",
+      name: "categories",
       type: "base",
       system: false,
       schema: [
