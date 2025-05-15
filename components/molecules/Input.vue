@@ -24,5 +24,3 @@ defineOptions({
   inheritAttrs: false,
 });
 </script>
-
-<style scoped></style>
