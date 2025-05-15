@@ -17,12 +17,12 @@ export default defineNuxtConfig({
     { path: "~/container", prefix: "c" },
   ],
 
-  css: ["~/assets/app.css"],
+  css: ["~/assets/app.css", "@fortawesome/fontawesome-svg-core/styles.css"],
 
   devServer: { port: Number(process.env.PORT) || 3000 },
   devtools: { enabled: true },
 
-  modules: ["@nuxt/eslint", "nuxt-feather-icons"],
+  modules: ["@nuxt/eslint"],
 
   nitro: {
     compressPublicAssets: true,
@@ -54,3 +54,4 @@ export default defineNuxtConfig({
     plugins: [tailwindcss()],
   },
 });
+

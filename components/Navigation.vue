@@ -9,7 +9,7 @@
       class="inline-flex aspect-square w-16 cursor-pointer items-center justify-center hover:bg-black/20"
       @click.prevent="item.onClick"
     >
-      <component :is="item.icon" />
+      <fa :icon="item.icon" />
     </a>
   </div>
 </template>
@@ -19,19 +19,19 @@ const { signOut, authenticated } = useAuth();
 
 const menuItems = ref([
   {
-    icon: resolveComponent("HomeIcon"),
+    icon: "fas fa-home",
     onClick: () => {
       navigateTo("/");
     },
   },
   {
-    icon: resolveComponent("ShieldIcon"),
+    icon: "fas fa-cog",
     onClick: () => {
       navigateTo("/admin");
     },
   },
   {
-    icon: resolveComponent("LogOutIcon"),
+    icon: "fas fa-sign-out-alt",
     onClick: signOut,
   },
 ]);

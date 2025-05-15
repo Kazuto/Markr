@@ -2,7 +2,7 @@
   <div>
     <input type="hidden" name="provider" :value="provider.name" />
     <a-button @click="oAuthSignIn(provider.name)">
-      <component :is="icon" size="2x" />
+      <fa :icon="icon" />
       {{ provider.displayName }}
     </a-button>
   </div>
@@ -17,10 +17,5 @@ const props = defineProps<{
   provider: AuthProviderInfo;
 }>();
 
-const icon = computed(() => {
-  let name = props.provider.name;
-  name = name.charAt(0).toUpperCase() + name.slice(1);
-
-  return resolveComponent(`${name}Icon`);
-});
+const icon = computed(() => "fab fa-" + props.provider.name);
 </script>

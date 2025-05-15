@@ -15,11 +15,12 @@
     "lint:prettier": "prettier --write --list-different ."
   },
   "dependencies": {
+    "@fortawesome/free-brands-svg-icons": "^6.7.2",
+    "@fortawesome/free-solid-svg-icons": "^6.7.2",
+    "@fortawesome/vue-fontawesome": "^3.0.8",
     "@tailwindcss/vite": "^4.1.5",
     "@tanstack/vue-query": "^5.76.0",
-    "next-auth": "~4.21.1",
     "nuxt": "^3.11.2",
-    "nuxt-feather-icons": "1.2.5",
     "pocketbase": "0.21",
     "tailwindcss": "^4.1.5",
     "vue": "^3.4.27",
