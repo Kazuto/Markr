@@ -1,10 +1,10 @@
 <template>
   <div>
     <input type="hidden" name="provider" :value="provider.name" />
-    <atoms-button @click="oAuthSignIn(provider.name)">
-      <fa-icon :icon="['fab', provider.name]" />
+    <a-button @click="oAuthSignIn(provider.name)">
+      <component :is="icon" size="2x" />
       {{ provider.displayName }}
-    </atoms-button>
+    </a-button>
   </div>
 </template>
 
@@ -13,7 +13,14 @@ import type { AuthProviderInfo } from "pocketbase";
 
 const { oAuthSignIn } = useAuth();
 
-defineProps<{
+const props = defineProps<{
   provider: AuthProviderInfo;
 }>();
+
+const icon = computed(() => {
+  let name = props.provider.name;
+  name = name.charAt(0).toUpperCase() + name.slice(1);
+
+  return resolveComponent(`${name}Icon`);
+});
 </script>

@@ -3,21 +3,21 @@
     class="space-y-2"
     @submit.prevent="credentialSignIn(username, password)"
   >
-    <molecules-input
+    <a-input
       id="email"
       placeholder="name@example.com"
       type="email"
       name="email"
       v-model="username"
     />
-    <molecules-input
+    <a-input
       id="password"
       placeholder="*****"
       type="password"
       name="password"
       v-model="password"
     />
-    <atoms-button type="submit" class="mt-4">Sign in</atoms-button>
+    <a-button type="submit" class="mt-4">Sign in</a-button>
   </form>
 </template>
 

@@ -10,9 +10,12 @@ export default defineNuxtConfig({
 
   compatibilityDate: "2025-05-09",
 
-  components: {
-    dirs: ["~/components", "~/container"],
-  },
+  components: [
+    "~/components",
+    { path: "~/components/atom", prefix: "a" },
+    { path: "~/components/molecule", prefix: "m" },
+    { path: "~/container", prefix: "c" },
+  ],
 
   css: ["~/assets/app.css"],
 
@@ -51,4 +54,3 @@ export default defineNuxtConfig({
     plugins: [tailwindcss()],
   },
 });
-

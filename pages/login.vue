@@ -2,7 +2,7 @@
   <div
     class="mx-auto flex h-full w-full max-w-md flex-col justify-center space-y-4"
   >
-    <molecules-card title="Sign In">
+    <m-card title="Sign In">
       <div v-if="providers" class="flex flex-col gap-4">
         <p>Choose a sign-in method:</p>
 
@@ -16,7 +16,7 @@
           </auth-o-auth-button>
         </div>
       </div>
-    </molecules-card>
+    </m-card>
   </div>
 </template>
 
