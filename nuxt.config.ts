@@ -10,6 +10,10 @@ export default defineNuxtConfig({
 
   compatibilityDate: "2025-05-09",
 
+  components: {
+    dirs: ["~/components", "~/container"],
+  },
+
   css: ["~/assets/app.css"],
 
   devServer: { port: Number(process.env.PORT) || 3000 },
@@ -47,3 +51,4 @@ export default defineNuxtConfig({
     plugins: [tailwindcss()],
   },
 });
+
