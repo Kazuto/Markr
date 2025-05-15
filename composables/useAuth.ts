@@ -3,20 +3,20 @@ import { type RecordModel, type ClientResponseError } from "pocketbase";
 export function useAuth() {
   const pb = usePocketBase();
 
-  const data = computed(() => pb.authStore.model as RecordModel);
-  const isAdmin = computed(() => pb.authStore.isAdmin);
-  const authenticated = computed(() => pb.authStore.isValid);
+  const data = computed(() => pb.client.authStore.model as RecordModel);
+  const isAdmin = computed(() => pb.client.authStore.isAdmin);
+  const authenticated = computed(() => pb.client.authStore.isValid);
   const unauthenticated = computed(() => !authenticated.value);
 
   const authProviders = async () => {
-    const auth = await pb.collection("users").listAuthMethods();
+    const auth = await pb.client.collection("users").listAuthMethods();
 
     return auth.authProviders ?? [];
   };
 
   const oAuthSignIn = async (provider: string) => {
     try {
-      await pb.collection("users").authWithOAuth2({ provider });
+      await pb.client.collection("users").authWithOAuth2({ provider });
 
       reloadNuxtApp();
     } catch (e) {
@@ -26,9 +26,8 @@ export function useAuth() {
   };
 
   const credentialSignIn = async (username: string, password: string) => {
-    console.log(username, password);
     try {
-      await pb.collection("users").authWithPassword(username, password);
+      await pb.client.collection("users").authWithPassword(username, password);
 
       reloadNuxtApp();
     } catch (e) {
@@ -38,7 +37,7 @@ export function useAuth() {
   };
 
   const signOut = () => {
-    pb.authStore.clear();
+    pb.client.authStore.clear();
 
     reloadNuxtApp();
   };
