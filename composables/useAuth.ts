@@ -27,7 +27,7 @@ export function useAuth() {
 
   const credentialSignIn = async (username: string, password: string) => {
     try {
-      await pb.client.collection("users").authWithPassword(username, password);
+      await pb.client.admins.authWithPassword(username, password);
 
       reloadNuxtApp();
     } catch (e) {

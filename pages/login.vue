@@ -15,14 +15,6 @@
             Sign in with {{ provider.displayName }}
           </auth-o-auth-button>
         </div>
-
-        <hr class="mb-3 opacity-20" />
-      </div>
-
-      <div class="flex flex-col gap-2">
-        <p>Or sign in with your email and password</p>
-
-        <auth-credential-form />
       </div>
     </molecules-card>
   </div>
