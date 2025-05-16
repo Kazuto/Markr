@@ -2,7 +2,7 @@ import type PocketBase from "pocketbase";
 import { bookmarks, type BookmarkData } from "./bookmarks";
 import { categories, type CategoryData } from "./categories";
 import { teams, type TeamData } from "./teams";
-import { users } from "./users";
+import { users, type UserData } from "./users";
 
 export default (client: PocketBase) => {
   return {
@@ -13,4 +13,4 @@ export default (client: PocketBase) => {
   };
 };
 
-export { type BookmarkData, type CategoryData, type TeamData };
+export { type BookmarkData, type CategoryData, type TeamData, type UserData };

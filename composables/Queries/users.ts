@@ -1,6 +1,14 @@
 import type PocketBase from "pocketbase";
 import type { RecordListOptions, RecordOptions } from "pocketbase";
-import { useQuery, useQueryClient } from "@tanstack/vue-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
+
+export type UserData = {
+  id: string;
+  name: string;
+  username: string;
+  email?: string;
+  avatar?: string;
+};
 
 export function users(client: PocketBase) {
   const queryClient = useQueryClient();
@@ -25,6 +33,12 @@ export function users(client: PocketBase) {
       queryFn: () => client.collection(collection).getOne(id, options),
     });
 
+  const update = (client: PocketBase) =>
+    useMutation({
+      mutationFn: (data: UserData) =>
+        client.collection(collection).update(data.id, data),
+    });
+
   onMounted(() => {
     client.collection(collection).subscribe("*", function () {
       queryClient.invalidateQueries({ queryKey: [collection] });
@@ -38,6 +52,7 @@ export function users(client: PocketBase) {
   return {
     list: (options?: RecordListOptions) => list(client, options),
     get: (id: string, options?: RecordOptions) => get(client, id, options),
+    update: () => update(client),
     page,
     perPage,
   };

@@ -25,7 +25,13 @@ const menuItems = ref([
     },
   },
   {
-    icon: "fas fa-cog",
+    icon: "fas fa-user",
+    onClick: () => {
+      navigateTo("/profile");
+    },
+  },
+  {
+    icon: "fas fa-shield",
     onClick: () => {
       navigateTo("/admin");
     },
