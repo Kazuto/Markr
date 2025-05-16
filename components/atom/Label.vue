@@ -1,5 +1,5 @@
 <template>
-  <label class="block text-sm font-medium capitalize">
+  <label class="block text-sm font-medium text-gray-700 capitalize">
     <slot />
   </label>
 </template>
