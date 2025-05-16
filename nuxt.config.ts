@@ -22,7 +22,7 @@ export default defineNuxtConfig({
   devServer: { port: Number(process.env.PORT) || 3000 },
   devtools: { enabled: true },
 
-  modules: ["@nuxt/eslint"],
+  modules: ["@nuxt/eslint", "@vueuse/nuxt"],
 
   nitro: {
     compressPublicAssets: true,
