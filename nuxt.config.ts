@@ -54,4 +54,3 @@ export default defineNuxtConfig({
     plugins: [tailwindcss()],
   },
 });
-

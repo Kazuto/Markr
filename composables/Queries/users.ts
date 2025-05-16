@@ -1,4 +1,4 @@
-import PocketBase from "pocketbase";
+import type PocketBase from "pocketbase";
 import type { RecordListOptions, RecordOptions } from "pocketbase";
 import { useQuery, useQueryClient } from "@tanstack/vue-query";
 

@@ -1,4 +1,4 @@
-import { type RecordModel, type ClientResponseError } from "pocketbase";
+import type { RecordModel, ClientResponseError } from "pocketbase";
 
 export function useAuth() {
   const pb = usePocketBase();

@@ -7,7 +7,10 @@
         </a-typography>
 
         <ol class="rounded-md bg-black/5 px-3 py-2 dark:bg-white/5">
-          <li v-for="bookmark in category.expand?.bookmarks_via_categories">
+          <li
+            v-for="bookmark in category.expand?.bookmarks_via_categories"
+            :key="bookmark.id"
+          >
             <a-link :href="bookmark.url" target="_blank">
               {{ bookmark.name }}
             </a-link>
@@ -19,6 +22,8 @@
 </template>
 
 <script setup lang="ts">
+import type { RecordModel } from "pocketbase";
+
 const pb = usePocketBase();
 
 const { data: categories } = pb.categories.list({
@@ -26,7 +31,7 @@ const { data: categories } = pb.categories.list({
   expand: "bookmarks_via_categories",
 });
 
-const hasBookmarks = (category: any) => {
+const hasBookmarks = (category: RecordModel) => {
   return category.expand?.bookmarks_via_categories?.length > 0;
 };
 </script>

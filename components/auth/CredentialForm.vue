@@ -5,17 +5,17 @@
   >
     <a-input
       id="email"
+      v-model="username"
       placeholder="name@example.com"
       type="email"
       name="email"
-      v-model="username"
     />
     <a-input
       id="password"
+      v-model="password"
       placeholder="*****"
       type="password"
       name="password"
-      v-model="password"
     />
     <a-button type="submit" class="mt-4">Sign in</a-button>
   </form>

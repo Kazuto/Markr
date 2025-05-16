@@ -1,4 +1,4 @@
-import PocketBase from "pocketbase";
+import type PocketBase from "pocketbase";
 import { bookmarks, type BookmarkData } from "./bookmarks";
 import { categories, type CategoryData } from "./categories";
 import { teams, type TeamData } from "./teams";
