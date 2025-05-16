@@ -1,7 +1,7 @@
 import PocketBase from "pocketbase";
 import Queries from "./Queries";
 
-export const usePocketBase = () => {
+export function usePocketBase() {
   const config = useRuntimeConfig();
 
   const client = new PocketBase(config.public.pocketbaseUrl);
@@ -10,4 +10,4 @@ export const usePocketBase = () => {
     client,
     ...Queries(client),
   };
-};
+}

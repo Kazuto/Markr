@@ -19,25 +19,45 @@
         class="cursor-pointer rounded-lg px-3 py-2 capitalize transition-colors hover:bg-gray-200"
         :class="{
           'bg-gray-300 font-bold text-gray-800 hover:bg-gray-300':
-            model === tab,
+            activeTab === tab,
         }"
-        @click="model = tab"
+        @click="setActiveTab(tab)"
       >
         {{ tab }}
       </li>
     </ul>
 
-    <component :is="tabs[model as keyof Tabs]" />
+    <component :is="tabs[activeTab as keyof Tabs]" />
   </div>
 </template>
 
 <script setup lang="ts">
 export type Tabs = Record<string, unknown>;
 
-const model = defineModel<keyof Tabs>();
-
 defineProps<{
   tabs: Tabs;
   horizontal?: boolean;
 }>();
+
+const router = useRouter();
+
+const activeTab: Ref<keyof Tabs> = ref("Categories");
+
+const { uppercase } = useHelper();
+
+onMounted(() => {
+  if (router.currentRoute.value.hash) {
+    const hash = router.currentRoute.value.hash.slice(1);
+
+    activeTab.value = uppercase(hash) as keyof Tabs;
+  }
+});
+
+const setActiveTab = (tab: keyof Tabs) => {
+  activeTab.value = tab;
+
+  router.push({
+    hash: `#${tab.toLowerCase()}`,
+  });
+};
 </script>
