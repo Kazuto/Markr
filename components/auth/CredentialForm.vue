@@ -3,14 +3,14 @@
     class="space-y-2"
     @submit.prevent="credentialSignIn(username, password)"
   >
-    <a-input
+    <m-input
       id="email"
       v-model="username"
       placeholder="name@example.com"
       type="email"
       name="email"
     />
-    <a-input
+    <m-input
       id="password"
       v-model="password"
       placeholder="*****"
