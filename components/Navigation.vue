@@ -7,6 +7,7 @@
       v-for="(item, index) in menuItems"
       :key="index"
       class="inline-flex aspect-square w-16 cursor-pointer items-center justify-center hover:bg-black/20"
+      :class="{ '!hidden': item.hidden }"
       @click.prevent="item.onClick"
     >
       <fa :icon="item.icon" />
@@ -15,7 +16,7 @@
 </template>
 
 <script setup>
-const { signOut, authenticated } = useAuth();
+const { signOut, authenticated, isAdmin } = useAuth();
 
 const menuItems = ref([
   {
@@ -23,22 +24,26 @@ const menuItems = ref([
     onClick: () => {
       navigateTo("/");
     },
+    hidden: false,
   },
   {
     icon: "fas fa-user",
     onClick: () => {
       navigateTo("/profile");
     },
+    hidden: isAdmin,
   },
   {
     icon: "fas fa-shield",
     onClick: () => {
       navigateTo("/admin");
     },
+    hidden: false,
   },
   {
     icon: "fas fa-sign-out-alt",
     onClick: signOut,
+    hidden: false,
   },
 ]);
 </script>

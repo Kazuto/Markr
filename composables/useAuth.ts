@@ -3,6 +3,9 @@ import type { RecordModel, ClientResponseError } from "pocketbase";
 export function useAuth() {
   const pb = usePocketBase();
 
+  const currentAuth = useLocalStorage("pocketbase_auth", null);
+  const userAuth = useLocalStorage("pocketbase_user", null);
+
   const data = computed(() => pb.client.authStore.model as RecordModel);
   const isAdmin = computed(() => pb.client.authStore.isAdmin);
   const authenticated = computed(() => pb.client.authStore.isValid);
@@ -27,6 +30,8 @@ export function useAuth() {
 
   const credentialSignIn = async (username: string, password: string) => {
     try {
+      userAuth.value = currentAuth.value;
+
       await pb.client.admins.authWithPassword(username, password);
 
       reloadNuxtApp();
@@ -37,6 +42,9 @@ export function useAuth() {
   };
 
   const signOut = () => {
+    currentAuth.value = userAuth.value;
+    userAuth.value = null;
+
     pb.client.authStore.clear();
 
     reloadNuxtApp();
