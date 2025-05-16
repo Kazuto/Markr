@@ -1,10 +1,7 @@
 <template>
-  <a-typography is="h2" size="large" class="mb-4">
-    {{ activeTab }}
-  </a-typography>
-  <div class="grid grid-cols-[minmax(auto,300px)_1fr] justify-center gap-4">
+  <m-card :title="activeTab" class="h-full">
     <m-tab-list v-model="activeTab" :tabs="tabs" />
-  </div>
+  </m-card>
 </template>
 
 <script setup lang="ts">
