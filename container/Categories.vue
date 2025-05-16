@@ -6,12 +6,13 @@
           {{ category.name }}
         </a-typography>
 
-        <ol class="rounded-md bg-black/5 px-3 py-2 dark:bg-white/5">
+        <ol class="rounded-md bg-gray-100 px-2 py-2 shadow-xs dark:bg-white/5">
           <li
-            v-for="bookmark in category.expand?.bookmarks_via_categories"
+            v-for="bookmark in bookmarks(category)"
             :key="bookmark.id"
+            class="rounded-sm px-2 py-1 transition-colors hover:bg-white/25 dark:hover:bg-white/5"
           >
-            <a-link :href="bookmark.url" target="_blank">
+            <a-link :href="bookmark.url" target="_blank" class="block">
               {{ bookmark.name }}
             </a-link>
           </li>
@@ -31,7 +32,19 @@ const { data: categories } = pb.categories.list({
   expand: "bookmarks_via_categories",
 });
 
-const hasBookmarks = (category: RecordModel) => {
-  return category.expand?.bookmarks_via_categories?.length > 0;
-};
+const bookmarks = computed(() => {
+  return (category: RecordModel) => {
+    return category.expand?.bookmarks_via_categories.sort(
+      (a: RecordModel, b: RecordModel) => {
+        return a.order - b.order;
+      },
+    );
+  };
+});
+
+const hasBookmarks = computed(() => {
+  return (category: RecordModel) => {
+    return category.expand?.bookmarks_via_categories.length > 0;
+  };
+});
 </script>
