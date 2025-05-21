@@ -24,11 +24,9 @@ const emit = defineEmits<{
 
 const pb = usePocketBase();
 
-const initialState = {
+const { form, fillForm, resetForm } = useForm<TeamData>({
   name: "",
-};
-
-const form = reactive<TeamData>(initialState);
+});
 
 watch(
   () => props.team,
@@ -39,7 +37,7 @@ watch(
       return;
     }
 
-    setForm({
+    fillForm({
       name: value.name,
     });
   },
@@ -52,8 +50,8 @@ const buttonText = computed(() => {
 const { mutate: mutateCreate } = pb.teams.create();
 
 const create = () => {
-  mutateCreate(form, {
-    onSuccess: () => resetForm(),
+  mutateCreate(form.value, {
+    onSuccess: () => resetForm(() => emit("success")),
   });
 };
 
@@ -65,10 +63,10 @@ const update = () => {
   updateMutate(
     {
       id: props.team.id,
-      data: form,
+      data: form.value,
     },
     {
-      onSuccess: () => resetForm(),
+      onSuccess: () => resetForm(() => emit("success")),
     },
   );
 };
@@ -80,16 +78,4 @@ function submit() {
     create();
   }
 }
-
-function setForm(values: TeamData) {
-  Object.assign(form, {
-    ...values,
-  });
-}
-
-const resetForm = () => {
-  Object.assign(form, initialState);
-
-  emit("success");
-};
 </script>

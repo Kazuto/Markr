@@ -43,15 +43,13 @@ const { data: bookmarks } = pb.bookmarks.list({
 
 const { data: categories } = pb.categories.list();
 
-const initialState = {
+const { form, fillForm, resetForm } = useForm<BookmarkData>({
   name: "",
   url: "",
   order: 0,
   icon: "",
   categories: [],
-};
-
-const form = reactive<BookmarkData>(initialState);
+});
 
 const order = computed(() => {
   if (!bookmarks?.value?.items.length) return 0;
@@ -61,20 +59,18 @@ const order = computed(() => {
   );
 });
 
-watchEffect(() => {
-  form.order = order.value;
-});
-
 watch(
   () => props.bookmark,
   (value: RecordModel | undefined) => {
     if (value === undefined) {
       resetForm();
 
+      form.value.order = order.value;
+
       return;
     }
 
-    setForm({
+    fillForm({
       name: value.name,
       url: value.url,
       order: value.order,
@@ -91,8 +87,8 @@ const buttonText = computed(() => {
 const { mutate: mutateCreate } = pb.bookmarks.create();
 
 const create = () => {
-  mutateCreate(form, {
-    onSuccess: () => resetForm(),
+  mutateCreate(form.value, {
+    onSuccess: () => resetForm(() => emit("success")),
   });
 };
 const { mutate: updateMutate } = pb.bookmarks.update();
@@ -103,10 +99,10 @@ const update = () => {
   updateMutate(
     {
       id: props.bookmark.id,
-      data: form,
+      data: form.value,
     },
     {
-      onSuccess: () => resetForm(),
+      onSuccess: () => resetForm(() => emit("success")),
     },
   );
 };
@@ -118,16 +114,4 @@ function submit() {
     create();
   }
 }
-
-function setForm(values: BookmarkData) {
-  Object.assign(form, {
-    ...values,
-  });
-}
-
-const resetForm = () => {
-  Object.assign(form, initialState);
-
-  emit("success");
-};
 </script>

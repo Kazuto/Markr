@@ -31,15 +31,12 @@ const { data: categories } = pb.categories.list({
   sort: "order",
 });
 
-const initialState = {
+const { form, fillForm, resetForm } = useForm<CategoryData>({
   name: "",
   order: 0,
   color: "",
   icon: "",
-  categories: [],
-};
-
-const form = reactive<CategoryData>(initialState);
+});
 
 const order = computed(() => {
   if (!categories?.value?.items.length) return 0;
@@ -49,20 +46,18 @@ const order = computed(() => {
   );
 });
 
-watchEffect(() => {
-  form.order = order.value;
-});
-
 watch(
   () => props.category,
   (value: RecordModel | undefined) => {
     if (value === undefined) {
       resetForm();
 
+      form.value.order = order.value;
+
       return;
     }
 
-    setForm({
+    fillForm({
       name: value.name,
       order: value.order,
       color: value.color,
@@ -78,8 +73,8 @@ const buttonText = computed(() => {
 const { mutate: mutateCreate } = pb.categories.create();
 
 const create = () => {
-  mutateCreate(form, {
-    onSuccess: () => resetForm(),
+  mutateCreate(form.value, {
+    onSuccess: () => resetForm(() => emit("success")),
   });
 };
 
@@ -91,10 +86,10 @@ const update = () => {
   updateMutate(
     {
       id: props.category.id,
-      data: form,
+      data: form.value,
     },
     {
-      onSuccess: () => resetForm(),
+      onSuccess: () => resetForm(() => emit("success")),
     },
   );
 };
@@ -106,16 +101,4 @@ function submit() {
     create();
   }
 }
-
-function setForm(values: CategoryData) {
-  Object.assign(form, {
-    ...values,
-  });
-}
-
-const resetForm = () => {
-  Object.assign(form, initialState);
-
-  emit("success");
-};
 </script>
