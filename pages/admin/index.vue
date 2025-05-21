@@ -1,6 +1,6 @@
 <template>
   <m-card :title="activeTab" class="h-full">
-    <m-tab-list v-model="activeTab" :tabs="tabs" />
+    <m-tab-list v-model="activeTab" :tabs />
   </m-card>
 </template>
 
