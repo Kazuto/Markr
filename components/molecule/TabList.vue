@@ -18,8 +18,7 @@
         :key="tab"
         class="cursor-pointer rounded-lg px-3 py-2 capitalize transition-colors hover:bg-gray-200"
         :class="{
-          'bg-gray-300 font-bold text-gray-800 hover:bg-gray-300':
-            activeTab === tab,
+          'pointer-events-none bg-gray-300 font-bold': activeTab === tab,
         }"
         @click="setActiveTab(tab)"
       >
