@@ -17,7 +17,7 @@
       type="password"
       name="password"
     />
-    <a-button type="submit" class="mt-4">Sign in</a-button>
+    <a-button type="submit" class="mt-4" block>Sign in</a-button>
   </form>
 </template>
 

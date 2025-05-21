@@ -1,7 +1,7 @@
 <template>
   <div>
     <input type="hidden" name="provider" :value="provider.name" />
-    <a-button @click="oAuthSignIn(provider.name)">
+    <a-button block @click="oAuthSignIn(provider.name)">
       <fa :icon="icon" />
       {{ provider.displayName }}
     </a-button>
