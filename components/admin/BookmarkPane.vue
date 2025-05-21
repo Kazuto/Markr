@@ -1,5 +1,10 @@
 <template>
   <a-tab-pane>
+    <div class="flex justify-end">
+      <a-button @click="openModal(undefined)">
+        <fa icon="fas fa-plus" /> Add Bookmark
+      </a-button>
+    </div>
     <table class="w-full text-left">
       <thead>
         <tr
@@ -14,18 +19,20 @@
       </thead>
       <tbody class="[&>tr:nth-child(even)]:bg-gray-100">
         <tr
-          v-for="bookmark in bookmarks?.items"
-          :key="bookmark.id"
+          v-for="item in bookmarks?.items"
+          :key="item.id"
           class="[&>td]:px-3 [&>td]:py-2 [&>td:first-child]:rounded-l-sm [&>td:last-child]:rounded-r-sm"
         >
-          <td>{{ bookmark.name }}</td>
-          <td>{{ bookmark.url }}</td>
-          <td>{{ bookmark.order }}</td>
-          <td>{{ bookmark.icon }}</td>
+          <td>{{ item.name }}</td>
+          <td>{{ item.url }}</td>
+          <td>{{ item.order }}</td>
+          <td>{{ item.icon }}</td>
           <td>
             <div class="flex items-end justify-end space-x-1">
-              <a-button icon><fa icon="fas fa-pencil" /></a-button>
-              <a-button icon destructive @click="deleteBookmark(bookmark.id)">
+              <a-button icon @click="openModal(item)">
+                <fa icon="fas fa-pencil" />
+              </a-button>
+              <a-button icon destructive @click="deleteBookmark(item.id)">
                 <fa icon="fas fa-trash" />
               </a-button>
             </div>
@@ -34,24 +41,13 @@
       </tbody>
     </table>
 
-    <div class="flex flex-col gap-4">
-      <a-typography
-        is="p"
-        size="small"
-        class="text-gray-700 dark:text-gray-700"
-      >
-        Create a new bookmark
-      </a-typography>
-
-      <div class="max-w-sm space-y-2">
-        <m-input id="name" v-model="name" name="name" class="grow" />
-        <m-input id="color" v-model="url" name="color" />
-        <m-input id="order" v-model="order" name="order" type="number" />
-        <m-input id="icon" v-model="icon" name="icon" />
-
-        <a-button @click="createBookmark"> Create </a-button>
-      </div>
-    </div>
+    <a-dialog v-model="open" :title @close="closeModal">
+      <admin-bookmark-form
+        :bookmark
+        @cancel="closeModal"
+        @success="closeModal"
+      />
+    </a-dialog>
   </a-tab-pane>
 </template>
 
@@ -64,50 +60,29 @@ const { data: bookmarks } = pb.bookmarks.list({
   sort: "order",
 });
 
-const name = ref("");
-const url = ref("");
-const order = ref(0);
-const icon = ref<string | undefined>();
-const categories = ref<string[]>([]);
-
-const { mutate: mutateCreate } = pb.bookmarks.create();
-
-watchEffect(() => {
-  if (bookmarks?.value?.items) {
-    const orders: number[] = bookmarks.value.items.map(
-      (c: RecordModel) => c.order,
-    );
-
-    order.value = Math.max(0, ...orders) + 1;
-  }
-});
-
-const createBookmark = () => {
-  mutateCreate(
-    {
-      name: name.value,
-      url: url.value,
-      order: order.value,
-      icon: icon.value,
-      categories: [],
-    },
-    {
-      onSuccess: () => {
-        name.value = "";
-        url.value = "";
-        order.value = 0;
-        icon.value = undefined;
-        categories.value = [];
-      },
-    },
-  );
-};
-
 const { mutate: mutateDelete } = pb.bookmarks.destroy();
 
 const deleteBookmark = (id: string) => {
   mutateDelete(id);
 };
+
+const open = ref(false);
+
+const bookmark = ref<RecordModel | undefined>();
+
+const title = computed(() => {
+  return bookmark.value ? "Edit a bookmark" : "Create a new bookmark";
+});
+
+function openModal(item?: RecordModel) {
+  open.value = true;
+  bookmark.value = item;
+}
+
+function closeModal() {
+  open.value = false;
+  bookmark.value = undefined;
+}
 </script>
 
 <style scoped></style>

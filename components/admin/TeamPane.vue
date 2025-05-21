@@ -1,5 +1,11 @@
 <template>
   <a-tab-pane>
+    <div class="flex justify-end">
+      <a-button @click="openModal(undefined)">
+        <fa icon="fas fa-plus" /> Add Team
+      </a-button>
+    </div>
+
     <table class="w-full text-left">
       <thead>
         <tr
@@ -11,15 +17,17 @@
       </thead>
       <tbody class="[&>tr:nth-child(even)]:bg-gray-100">
         <tr
-          v-for="team in teams?.items"
-          :key="team.id"
+          v-for="item in teams?.items"
+          :key="item.id"
           class="[&>td]:px-3 [&>td]:py-2 [&>td:first-child]:rounded-l-sm [&>td:last-child]:rounded-r-sm"
         >
-          <td>{{ team.name }}</td>
+          <td>{{ item.name }}</td>
           <td>
             <div class="flex items-end justify-end space-x-1">
-              <a-button icon><fa icon="fas fa-pencil" /></a-button>
-              <a-button icon destructive @click="deleteteam(team.id)">
+              <a-button icon @click="openModal(item)">
+                <fa icon="fas fa-pencil" />
+              </a-button>
+              <a-button icon destructive @click="deleteTeam(item.id)">
                 <fa icon="fas fa-trash" />
               </a-button>
             </div>
@@ -28,51 +36,42 @@
       </tbody>
     </table>
 
-    <div class="flex flex-col gap-4">
-      <a-typography
-        is="p"
-        size="small"
-        class="text-gray-700 dark:text-gray-700"
-      >
-        Create a new team
-      </a-typography>
-
-      <div class="max-w-sm space-y-2">
-        <m-input id="name" v-model="name" name="name" class="grow" />
-
-        <a-button @click="createteam"> Create </a-button>
-      </div>
-    </div>
+    <a-dialog v-model="open" :title @close="closeModal">
+      <admin-team-form :team @cancel="closeModal" @success="closeModal" />
+    </a-dialog>
   </a-tab-pane>
 </template>
 
 <script setup lang="ts">
+import type { RecordModel } from "pocketbase";
+
 const pb = usePocketBase();
 
 const { data: teams } = pb.teams.list({
   sort: "name",
 });
 
-const name = ref("");
+const open = ref(false);
 
-const { mutate: mutateCreate } = pb.teams.create();
+const team = ref<RecordModel | undefined>();
 
-const createteam = () => {
-  mutateCreate(
-    {
-      name: name.value,
-    },
-    {
-      onSuccess: () => {
-        name.value = "";
-      },
-    },
-  );
-};
+const title = computed(() => {
+  return team.value ? "Edit a category" : "Create a new category";
+});
+
+function openModal(item?: RecordModel) {
+  open.value = true;
+  team.value = item;
+}
+
+function closeModal() {
+  open.value = false;
+  team.value = undefined;
+}
 
 const { mutate: mutateDelete } = pb.teams.destroy();
 
-const deleteteam = (id: string) => {
+const deleteTeam = (id: string) => {
   mutateDelete(id);
 };
 </script>

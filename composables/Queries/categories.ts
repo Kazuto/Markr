@@ -38,6 +38,12 @@ export function categories(client: PocketBase) {
         client.collection(collection).create(data),
     });
 
+  const update = (client: PocketBase) =>
+    useMutation({
+      mutationFn: ({ id, data }: { id: string; data: CategoryData }) =>
+        client.collection(collection).update(id, data),
+    });
+
   const destroy = (client: PocketBase) =>
     useMutation({
       mutationFn: (id: string) => client.collection(collection).delete(id),
@@ -57,6 +63,7 @@ export function categories(client: PocketBase) {
     list: (options?: RecordListOptions) => list(client, options),
     get: (id: string, options?: RecordOptions) => get(client, id, options),
     create: () => create(client),
+    update: () => update(client),
     destroy: () => destroy(client),
     page,
     perPage,

@@ -1,5 +1,11 @@
 <template>
   <a-tab-pane>
+    <div class="flex justify-end">
+      <a-button @click="openModal(undefined)">
+        <fa icon="fas fa-plus" /> Add Category
+      </a-button>
+    </div>
+
     <table class="w-full text-left">
       <thead>
         <tr
@@ -14,18 +20,20 @@
       </thead>
       <tbody class="[&>tr:nth-child(even)]:bg-gray-100">
         <tr
-          v-for="category in categories?.items"
-          :key="category.id"
+          v-for="item in categories?.items"
+          :key="item.id"
           class="[&>td]:px-3 [&>td]:py-2 [&>td:first-child]:rounded-l-sm [&>td:last-child]:rounded-r-sm"
         >
-          <td>{{ category.name }}</td>
-          <td>{{ category.order }}</td>
-          <td>{{ category.color }}</td>
-          <td>{{ category.icon }}</td>
+          <td>{{ item.name }}</td>
+          <td>{{ item.order }}</td>
+          <td>{{ item.color }}</td>
+          <td>{{ item.icon }}</td>
           <td>
             <div class="flex items-end justify-end space-x-1">
-              <a-button icon><fa icon="fas fa-pencil" /></a-button>
-              <a-button icon destructive @click="deleteCategory(category.id)">
+              <a-button icon @click="openModal(item)">
+                <fa icon="fas fa-pencil" />
+              </a-button>
+              <a-button icon destructive @click="deleteCategory(item.id)">
                 <fa icon="fas fa-trash" />
               </a-button>
             </div>
@@ -34,24 +42,13 @@
       </tbody>
     </table>
 
-    <div class="flex flex-col gap-4">
-      <a-typography
-        is="p"
-        size="small"
-        class="text-gray-700 dark:text-gray-700"
-      >
-        Create a new category
-      </a-typography>
-
-      <div class="max-w-sm space-y-2">
-        <m-input id="name" v-model="name" name="name" class="grow" />
-        <m-input id="order" v-model="order" name="order" type="number" />
-        <m-input id="color" v-model="color" name="color" />
-        <m-input id="icon" v-model="icon" name="icon" />
-
-        <a-button @click="createCategory"> Create </a-button>
-      </div>
-    </div>
+    <a-dialog v-model="open" :title @close="closeModal">
+      <admin-category-form
+        :category
+        @cancel="closeModal"
+        @success="closeModal"
+      />
+    </a-dialog>
   </a-tab-pane>
 </template>
 
@@ -64,41 +61,23 @@ const { data: categories } = pb.categories.list({
   sort: "order",
 });
 
-const name = ref("");
-const order = ref(0);
-const color = ref<string | undefined>();
-const icon = ref<string | undefined>();
+const open = ref(false);
 
-const { mutate: mutateCreate } = pb.categories.create();
+const category = ref<RecordModel | undefined>();
 
-watchEffect(() => {
-  if (categories?.value?.items) {
-    const orders: number[] = categories.value.items.map(
-      (c: RecordModel) => c.order,
-    );
-
-    order.value = Math.max(0, ...orders) + 1;
-  }
+const title = computed(() => {
+  return category.value ? "Edit a category" : "Create a new category";
 });
 
-const createCategory = () => {
-  mutateCreate(
-    {
-      name: name.value,
-      order: order.value,
-      color: color.value,
-      icon: icon.value,
-    },
-    {
-      onSuccess: () => {
-        name.value = "";
-        order.value = 0;
-        color.value = undefined;
-        icon.value = undefined;
-      },
-    },
-  );
-};
+function openModal(item?: RecordModel) {
+  open.value = true;
+  category.value = item;
+}
+
+function closeModal() {
+  open.value = false;
+  category.value = undefined;
+}
 
 const { mutate: mutateDelete } = pb.categories.destroy();
 
