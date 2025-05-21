@@ -56,7 +56,7 @@ const open = ref(false);
 const team = ref<RecordModel | undefined>();
 
 const title = computed(() => {
-  return team.value ? "Edit a category" : "Create a new category";
+  return team.value ? `Edit team: ${team.value.name}` : "Create a team";
 });
 
 function openModal(item?: RecordModel) {

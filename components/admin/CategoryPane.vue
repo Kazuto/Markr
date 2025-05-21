@@ -66,7 +66,9 @@ const open = ref(false);
 const category = ref<RecordModel | undefined>();
 
 const title = computed(() => {
-  return category.value ? "Edit a category" : "Create a new category";
+  return category.value
+    ? `Edit category: ${category.value.name}`
+    : "Create a category";
 });
 
 function openModal(item?: RecordModel) {

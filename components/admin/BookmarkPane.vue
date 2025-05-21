@@ -71,7 +71,9 @@ const open = ref(false);
 const bookmark = ref<RecordModel | undefined>();
 
 const title = computed(() => {
-  return bookmark.value ? "Edit a bookmark" : "Create a new bookmark";
+  return bookmark.value
+    ? `Edit bookmark: ${bookmark.value.name}`
+    : "Create a bookmark";
 });
 
 function openModal(item?: RecordModel) {
