@@ -1,6 +1,6 @@
 <template>
   <div class="grid grid-cols-[repeat(auto-fill,minmax(450px,1fr))] gap-4">
-    <template v-for="category in categories?.items" :key="category.id">
+    <template v-for="category in categories" :key="category.id">
       <div v-if="hasBookmarks(category)">
         <a-typography is="h3" class="mb-3 dark:text-white">
           {{ category.name }}
@@ -25,11 +25,30 @@
 <script setup lang="ts">
 import type { RecordModel } from "pocketbase";
 
+const { data: user } = useAuth();
+
 const pb = usePocketBase();
 
-const { data: categories } = pb.categories.list({
+const { data: teams } = pb.teams.list({
+  fields: "id, categories",
+  filter: user.value.teams
+    .map((id: string) => pb.client.filter("id = {:id}", { id }))
+    .join("||"),
+});
+
+const { data: categoryList } = pb.categories.all({
   sort: "order",
   expand: "bookmarks_via_categories",
+});
+
+const categories = computed(() => {
+  const ids = teams.value?.items.flatMap(
+    (team: RecordModel) => team.categories,
+  );
+
+  return categoryList.value?.filter((cat: RecordModel) => {
+    return ids?.includes(cat.id);
+  });
 });
 
 const bookmarks = computed(() => {
