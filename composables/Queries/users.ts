@@ -3,11 +3,11 @@ import type { RecordListOptions, RecordOptions } from "pocketbase";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
 
 export type UserData = {
-  id: string;
   name: string;
   username: string;
   email?: string;
   avatar?: string;
+  teams?: string[];
 };
 
 export function users(client: PocketBase) {
@@ -35,8 +35,8 @@ export function users(client: PocketBase) {
 
   const update = (client: PocketBase) =>
     useMutation({
-      mutationFn: (data: UserData) =>
-        client.collection(collection).update(data.id, data),
+      mutationFn: ({ id, data }: { id: string; data: UserData }) =>
+        client.collection(collection).update(id, data),
     });
 
   onMounted(() => {

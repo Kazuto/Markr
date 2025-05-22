@@ -8,11 +8,13 @@
 import Categories from "~/components/admin/CategoryPane.vue";
 import Bookmarks from "~/components/admin/BookmarkPane.vue";
 import Teams from "~/components/admin/TeamPane.vue";
+import Users from "~/components/admin/UserPane.vue";
 
 const tabs = {
   Categories,
   Bookmarks,
   Teams,
+  Users,
 };
 
 const activeTab: Ref<keyof typeof tabs> = ref("Categories");

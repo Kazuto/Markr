@@ -24,8 +24,10 @@ const { mutate } = pb.users.update();
 function updateUser() {
   mutate({
     id: data.value.id,
-    username: data.value.username,
-    name: data.value.name,
+    data: {
+      username: data.value.username,
+      name: data.value.name,
+    },
   });
 }
 </script>
