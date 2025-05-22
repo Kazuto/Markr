@@ -9,13 +9,13 @@
     />
     <div
       class="flex h-5 w-8 items-center rounded-full p-1 transition-colors duration-300 focus:outline-2 focus:outline-offset-3 focus:outline-gray-500"
-      @click="model = !model"
       tabindex="0"
       :class="{
         'bg-blue-600': model,
         'bg-gray-300': !model,
         'cursor-not-allowed opacity-50': disabled,
       }"
+      @click="model = !model"
     >
       <div
         class="h-3 w-3 transform rounded-full bg-white shadow-md transition-transform duration-300"
