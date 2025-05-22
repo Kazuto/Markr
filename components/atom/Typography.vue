@@ -1,7 +1,7 @@
 <template>
   <component
     :is
-    class="text-gray-700 dark:text-gray-200"
+    class="text-gray-700 dark:text-gray-700"
     :class="{
       'text-md': size === 'small',
       'text-xl tracking-tight': size === 'medium',

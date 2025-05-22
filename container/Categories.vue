@@ -2,7 +2,7 @@
   <div class="grid grid-cols-[repeat(auto-fill,minmax(450px,1fr))] gap-4">
     <template v-for="category in categories?.items" :key="category.id">
       <div v-if="hasBookmarks(category)">
-        <a-typography is="h3" class="mb-3">
+        <a-typography is="h3" class="mb-3 dark:text-white">
           {{ category.name }}
         </a-typography>
 
