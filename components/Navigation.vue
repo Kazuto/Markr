@@ -31,14 +31,14 @@ const menuItems = ref([
     onClick: () => {
       navigateTo("/profile");
     },
-    hidden: isAdmin,
+    hidden: false,
   },
   {
     icon: "fas fa-shield",
     onClick: () => {
       navigateTo("/admin");
     },
-    hidden: false,
+    hidden: !isAdmin.value,
   },
   {
     icon: "fas fa-sign-out-alt",

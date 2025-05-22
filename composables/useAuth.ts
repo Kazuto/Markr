@@ -7,7 +7,7 @@ export function useAuth() {
   const userAuth = useLocalStorage("pocketbase_user", null);
 
   const data = computed(() => pb.client.authStore.model as RecordModel);
-  const isAdmin = computed(() => pb.client.authStore.isAdmin);
+  const isAdmin = computed(() => data.value?.is_admin);
   const authenticated = computed(() => pb.client.authStore.isValid);
   const unauthenticated = computed(() => !authenticated.value);
 
@@ -42,9 +42,6 @@ export function useAuth() {
   };
 
   const signOut = () => {
-    currentAuth.value = userAuth.value;
-    userAuth.value = null;
-
     pb.client.authStore.clear();
 
     reloadNuxtApp();
