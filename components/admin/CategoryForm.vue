@@ -47,11 +47,17 @@ const order = computed(() => {
 });
 
 watch(
+  () => order.value,
+  () => {
+    form.value.order = order.value;
+  },
+);
+
+watch(
   () => props.category,
   (value: RecordModel | undefined) => {
     if (value === undefined) {
       resetForm();
-
       form.value.order = order.value;
 
       return;
