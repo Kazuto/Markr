@@ -6,15 +6,14 @@
       <m-input id="order" v-model="form.order" name="order" type="number" />
       <m-input id="icon" v-model="form.icon" name="icon" />
 
-      <select v-model="form.categories" multiple>
-        <option
-          v-for="category in categories?.items"
-          :key="category.id"
-          :value="category.id"
-        >
-          {{ category.name }}
-        </option>
-      </select>
+      <a-select
+        v-if="categories?.items"
+        id="categories"
+        v-model="form.categories"
+        multiple
+        name="categories"
+        :options="dropdownOptions"
+      />
 
       <div class="flex justify-end">
         <a-button @click="submit">{{ buttonText }}</a-button>
@@ -42,6 +41,15 @@ const { data: bookmarks } = pb.bookmarks.list({
 });
 
 const { data: categories } = pb.categories.list();
+
+const dropdownOptions = computed(() => {
+  if (!categories.value?.items.length) return [];
+
+  return categories.value?.items.map((c: RecordModel) => ({
+    label: c.name,
+    value: c.id,
+  }));
+});
 
 const { form, fillForm, resetForm } = useForm<BookmarkData>({
   name: "",
