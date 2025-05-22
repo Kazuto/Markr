@@ -57,8 +57,11 @@ migrate(
       options: {},
     });
 
-    collection.listRule = "";
-    collection.viewRule = "";
+    collection.listRule = '@request.auth.id != ""';
+    collection.viewRule = '@request.auth.id != ""';
+    collection.createRule = "@request.auth.is_admin = true";
+    collection.updateRule = "@request.auth.is_admin = true";
+    collection.deleteRule = "@request.auth.is_admin = true";
 
     return Dao(db).saveCollection(collection);
   },

@@ -48,8 +48,8 @@ migrate(
       options: {},
     });
 
-    collection.listRule = "";
-    collection.viewRule = "";
+    collection.listRule = '@request.auth.id != ""';
+    collection.viewRule = '@request.auth.id != ""';
 
     return Dao(db).saveCollection(collection);
   },

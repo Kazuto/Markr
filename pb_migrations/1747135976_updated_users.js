@@ -36,6 +36,14 @@ migrate(
       }),
     );
 
+    collection.listRule = '@request.auth.id != ""';
+    collection.viewRule = '@request.auth.id != ""';
+    collection.createRule = "@request.auth.is_admin = true";
+    collection.updateRule =
+      "id = @request.auth.id || @request.auth.is_admin = true";
+    collection.deleteRule =
+      "id = @request.auth.id || @request.auth.is_admin = true";
+
     return dao.saveCollection(collection);
   },
   (db) => {
@@ -45,6 +53,12 @@ migrate(
     // remove
     collection.schema.removeField("u8dvtqyn");
     collection.schema.removeField("2gayfglm");
+
+    collection.listRule = "";
+    collection.viewRule = "";
+    collection.createRule = "";
+    collection.updateRule = "id = @request.auth.id";
+    collection.deleteRule = "id = @request.auth.id";
 
     return dao.saveCollection(collection);
   },
