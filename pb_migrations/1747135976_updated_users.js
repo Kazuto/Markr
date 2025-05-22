@@ -23,6 +23,19 @@ migrate(
       }),
     );
 
+    collection.schema.addField(
+      new SchemaField({
+        system: false,
+        id: "2gayfglm",
+        name: "is_admin",
+        type: "bool",
+        required: false,
+        presentable: false,
+        unique: false,
+        options: {},
+      }),
+    );
+
     return dao.saveCollection(collection);
   },
   (db) => {
@@ -31,6 +44,7 @@ migrate(
 
     // remove
     collection.schema.removeField("u8dvtqyn");
+    collection.schema.removeField("2gayfglm");
 
     return dao.saveCollection(collection);
   },
