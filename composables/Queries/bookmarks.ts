@@ -1,30 +1,24 @@
-import type PocketBase from "pocketbase";
-import type { RecordListOptions, RecordOptions } from "pocketbase";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
+import { Collections } from "~/lib/types";
 
-export type BookmarkData = {
-  name: string;
-  url: string;
-  order: number;
-  categories: string[];
-  icon?: string;
-};
+import type { RecordListOptions, RecordOptions } from "pocketbase";
+import type { TypedPocketBase, BookmarksRecord } from "~/lib/types";
 
-export function bookmarks(client: PocketBase) {
+export function bookmarks(client: TypedPocketBase) {
   const queryClient = useQueryClient();
 
-  const collection = "bookmarks";
+  const collection = Collections.Bookmarks;
 
   const page = ref(1);
   const perPage = ref(10);
 
-  const all = (client: PocketBase, options?: RecordListOptions) =>
+  const all = (client: TypedPocketBase, options?: RecordListOptions) =>
     useQuery({
       queryKey: [collection, options],
       queryFn: () => client.collection(collection).getFullList(options),
     });
 
-  const list = (client: PocketBase, options?: RecordListOptions) =>
+  const list = (client: TypedPocketBase, options?: RecordListOptions) =>
     useQuery({
       queryKey: [collection, options, perPage.value, page.value],
       queryFn: () =>
@@ -33,25 +27,25 @@ export function bookmarks(client: PocketBase) {
           .getList(page.value, perPage.value, options),
     });
 
-  const get = (client: PocketBase, id: string, options?: RecordOptions) =>
+  const get = (client: TypedPocketBase, id: string, options?: RecordOptions) =>
     useQuery({
       queryKey: [collection, id, options],
       queryFn: () => client.collection(collection).getOne(id, options),
     });
 
-  const create = (client: PocketBase) =>
+  const create = (client: TypedPocketBase) =>
     useMutation({
-      mutationFn: (data: BookmarkData) =>
+      mutationFn: (data: BookmarksRecord) =>
         client.collection(collection).create(data),
     });
 
-  const update = (client: PocketBase) =>
+  const update = (client: TypedPocketBase) =>
     useMutation({
-      mutationFn: ({ id, data }: { id: string; data: BookmarkData }) =>
+      mutationFn: ({ id, data }: { id: string; data: BookmarksRecord }) =>
         client.collection(collection).update(id, data),
     });
 
-  const destroy = (client: PocketBase) =>
+  const destroy = (client: TypedPocketBase) =>
     useMutation({
       mutationFn: (id: string) => client.collection(collection).delete(id),
     });

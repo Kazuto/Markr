@@ -52,7 +52,7 @@
 </template>
 
 <script setup lang="ts">
-import type { RecordModel } from "pocketbase";
+import type { BookmarksResponse } from "~/lib/types";
 
 const pb = usePocketBase();
 
@@ -68,7 +68,7 @@ const deleteBookmark = (id: string) => {
 
 const open = ref(false);
 
-const bookmark = ref<RecordModel | undefined>();
+const bookmark = ref<BookmarksResponse | undefined>();
 
 const title = computed(() => {
   return bookmark.value
@@ -76,7 +76,7 @@ const title = computed(() => {
     : "Create a bookmark";
 });
 
-function openModal(item?: RecordModel) {
+function openModal(item?: BookmarksResponse) {
   open.value = true;
   bookmark.value = item;
 }

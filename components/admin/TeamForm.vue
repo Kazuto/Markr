@@ -11,11 +11,10 @@
 </template>
 
 <script setup lang="ts">
-import type { RecordModel } from "pocketbase";
-import type { TeamData } from "~/composables/Queries";
+import type { TeamsRecord, TeamsResponse } from "~/lib/types";
 
 const props = defineProps<{
-  team?: RecordModel;
+  team?: TeamsResponse;
 }>();
 
 const emit = defineEmits<{
@@ -24,13 +23,13 @@ const emit = defineEmits<{
 
 const pb = usePocketBase();
 
-const { form, fillForm, resetForm } = useForm<TeamData>({
+const { form, fillForm, resetForm } = useForm<TeamsRecord>({
   name: "",
 });
 
 watch(
   () => props.team,
-  (value: RecordModel | undefined) => {
+  (value: TeamsResponse | undefined) => {
     if (value === undefined) {
       resetForm();
 

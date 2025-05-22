@@ -1,10 +1,10 @@
-import type PocketBase from "pocketbase";
-import { bookmarks, type BookmarkData } from "./bookmarks";
-import { categories, type CategoryData } from "./categories";
-import { teams, type TeamData } from "./teams";
-import { users, type UserData } from "./users";
+import { bookmarks } from "./bookmarks";
+import { categories } from "./categories";
+import { teams } from "./teams";
+import { users } from "./users";
+import type { TypedPocketBase } from "~/lib/types";
 
-export default (client: PocketBase) => {
+export default (client: TypedPocketBase) => {
   return {
     bookmarks: bookmarks(client),
     categories: categories(client),
@@ -12,5 +12,3 @@ export default (client: PocketBase) => {
     users: users(client),
   };
 };
-
-export { type BookmarkData, type CategoryData, type TeamData, type UserData };

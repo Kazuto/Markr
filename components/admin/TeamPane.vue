@@ -43,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import type { RecordModel } from "pocketbase";
+import type { TeamsResponse } from "~/lib/types";
 
 const pb = usePocketBase();
 
@@ -53,13 +53,13 @@ const { data: teams } = pb.teams.list({
 
 const open = ref(false);
 
-const team = ref<RecordModel | undefined>();
+const team = ref<TeamsResponse | undefined>();
 
 const title = computed(() => {
   return team.value ? `Edit team: ${team.value.name}` : "Create a team";
 });
 
-function openModal(item?: RecordModel) {
+function openModal(item?: TeamsResponse) {
   open.value = true;
   team.value = item;
 }

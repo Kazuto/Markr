@@ -23,11 +23,10 @@
 </template>
 
 <script setup lang="ts">
-import type { RecordModel } from "pocketbase";
-import type { BookmarkData } from "~/composables/Queries";
+import type { BookmarksRecord, BookmarksResponse } from "~/lib/types";
 
 const props = defineProps<{
-  bookmark?: RecordModel;
+  bookmark?: BookmarksResponse;
 }>();
 
 const emit = defineEmits<{
@@ -45,13 +44,13 @@ const { data: categories } = pb.categories.list();
 const dropdownOptions = computed(() => {
   if (!categories.value?.items.length) return [];
 
-  return categories.value?.items.map((c: RecordModel) => ({
+  return categories.value?.items.map((c) => ({
     label: c.name,
     value: c.id,
   }));
 });
 
-const { form, fillForm, resetForm } = useForm<BookmarkData>({
+const { form, fillForm, resetForm } = useForm<BookmarksRecord>({
   name: "",
   url: "",
   order: 0,
@@ -62,9 +61,7 @@ const { form, fillForm, resetForm } = useForm<BookmarkData>({
 const order = computed(() => {
   if (!bookmarks?.value?.items.length) return 0;
 
-  return (
-    Math.max(0, ...bookmarks.value.items.map((c: RecordModel) => c.order)) + 1
-  );
+  return Math.max(0, ...bookmarks.value.items.map((c) => c.order)) + 1;
 });
 
 watch(
@@ -76,7 +73,7 @@ watch(
 
 watch(
   () => props.bookmark,
-  (value: RecordModel | undefined) => {
+  (value: BookmarksRecord | undefined) => {
     if (value === undefined) {
       resetForm();
       form.value.order = order.value;

@@ -14,11 +14,10 @@
 </template>
 
 <script setup lang="ts">
-import type { RecordModel } from "pocketbase";
-import type { CategoryData } from "~/composables/Queries";
+import type { CategoriesResponse, CategoriesRecord } from "~/lib/types";
 
 const props = defineProps<{
-  category?: RecordModel;
+  category?: CategoriesResponse;
 }>();
 
 const emit = defineEmits<{
@@ -31,7 +30,7 @@ const { data: categories } = pb.categories.list({
   sort: "order",
 });
 
-const { form, fillForm, resetForm } = useForm<CategoryData>({
+const { form, fillForm, resetForm } = useForm<CategoriesRecord>({
   name: "",
   order: 0,
   color: "",
@@ -41,9 +40,7 @@ const { form, fillForm, resetForm } = useForm<CategoryData>({
 const order = computed(() => {
   if (!categories?.value?.items.length) return 0;
 
-  return (
-    Math.max(0, ...categories.value.items.map((c: RecordModel) => c.order)) + 1
-  );
+  return Math.max(0, ...categories.value.items.map((c) => c.order)) + 1;
 });
 
 watch(
@@ -55,7 +52,7 @@ watch(
 
 watch(
   () => props.category,
-  (value: RecordModel | undefined) => {
+  (value: CategoriesResponse | undefined) => {
     if (value === undefined) {
       resetForm();
       form.value.order = order.value;

@@ -2,8 +2,6 @@
   <div class="flex flex-col gap-4">
     <div class="space-y-2">
       <m-input id="name" v-model="form.name" name="name" />
-      <m-input id="username" v-model="form.username" name="username" />
-      <m-input id="email" v-model="form.email" name="email" type="email" />
 
       <a-toggle id="admin" v-model="form.is_admin" name="admin">
         Is Admin
@@ -26,11 +24,10 @@
 </template>
 
 <script setup lang="ts">
-import type { RecordModel } from "pocketbase";
-import type { UserData } from "~/composables/Queries";
+import type { UsersRecord, UsersResponse } from "~/lib/types";
 
 const props = defineProps<{
-  user?: RecordModel;
+  user?: UsersResponse;
 }>();
 
 const emit = defineEmits<{
@@ -44,23 +41,21 @@ const { data: teams } = pb.teams.list();
 const dropdownOptions = computed(() => {
   if (!teams.value?.items.length) return [];
 
-  return teams.value?.items.map((c: RecordModel) => ({
+  return teams.value?.items.map((c) => ({
     label: c.name,
     value: c.id,
   }));
 });
 
-const { form, fillForm, resetForm } = useForm<UserData>({
+const { form, fillForm, resetForm } = useForm<UsersRecord>({
   name: "",
-  username: "",
-  email: "",
   is_admin: false,
   teams: [],
 });
 
 watch(
   () => props.user,
-  (value: RecordModel | undefined) => {
+  (value: UsersResponse | undefined) => {
     if (value === undefined) {
       resetForm();
 
@@ -69,8 +64,6 @@ watch(
 
     fillForm({
       name: value.name,
-      username: value.username,
-      email: value.email,
       is_admin: value.is_admin,
       teams: value.teams,
     });

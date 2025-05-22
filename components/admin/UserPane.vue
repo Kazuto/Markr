@@ -15,7 +15,7 @@
       </thead>
       <tbody class="[&>tr:nth-child(even)]:bg-gray-100">
         <tr
-          v-for="item in users?.items"
+          v-for="item in users?.items as ExpandedUsersResponse[]"
           :key="item.id"
           class="[&>td]:px-3 [&>td]:py-2 [&>td:first-child]:rounded-l-sm [&>td:last-child]:rounded-r-sm"
         >
@@ -30,11 +30,13 @@
             />
           </td>
           <td>
-            {{ item.expand?.teams.map((t: TeamData) => t.name).join(", ") }}
+            {{
+              item.expand?.teams.map((t: TeamsResponse) => t.name).join(", ")
+            }}
           </td>
           <td>
             <div class="flex items-end justify-end space-x-1">
-              <a-button icon @click="openModal(item)">
+              <a-button icon @click="openModal(item as ExpandedUsersResponse)">
                 <fa icon="fas fa-pencil" />
               </a-button>
             </div>
@@ -50,8 +52,7 @@
 </template>
 
 <script setup lang="ts">
-import type { RecordModel } from "pocketbase";
-import type { TeamData } from "~/composables/Queries";
+import type { TeamsResponse, UsersResponse } from "~/lib/types";
 
 const pb = usePocketBase();
 
@@ -60,15 +61,19 @@ const { data: users } = pb.users.list({
   expand: "teams",
 });
 
+type ExpandedUsersResponse = UsersResponse<{
+  teams: TeamsResponse[];
+}>;
+
 const open = ref(false);
 
-const user = ref<RecordModel | undefined>();
+const user = ref<ExpandedUsersResponse | undefined>();
 
 const title = computed(() => {
   return user.value ? `Edit user: ${user.value.name}` : "";
 });
 
-function openModal(item?: RecordModel) {
+function openModal(item?: ExpandedUsersResponse) {
   open.value = true;
   user.value = item;
 }

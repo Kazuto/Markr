@@ -2,7 +2,6 @@
   <div class="mx-auto flex h-full max-w-md items-center justify-center">
     <m-card title="Profile">
       <div class="flex flex-col gap-4">
-        <m-input id="username" v-model="data.username" name="username" />
         <m-input id="name" v-model="data.name" name="name" />
         <a-button @click="updateUser">Update</a-button>
       </div>
@@ -25,7 +24,6 @@ function updateUser() {
   mutate({
     id: data.value.id,
     data: {
-      username: data.value.username,
       name: data.value.name,
     },
   });

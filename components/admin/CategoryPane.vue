@@ -53,7 +53,7 @@
 </template>
 
 <script setup lang="ts">
-import type { RecordModel } from "pocketbase";
+import type { CategoriesResponse } from "~/lib/types";
 
 const pb = usePocketBase();
 
@@ -63,7 +63,7 @@ const { data: categories } = pb.categories.list({
 
 const open = ref(false);
 
-const category = ref<RecordModel | undefined>();
+const category = ref<CategoriesResponse | undefined>();
 
 const title = computed(() => {
   return category.value
@@ -71,7 +71,7 @@ const title = computed(() => {
     : "Create a category";
 });
 
-function openModal(item?: RecordModel) {
+function openModal(item?: CategoriesResponse) {
   open.value = true;
   category.value = item;
 }

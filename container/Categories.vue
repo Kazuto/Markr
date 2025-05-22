@@ -1,14 +1,16 @@
 <template>
   <div class="grid grid-cols-[repeat(auto-fill,minmax(450px,1fr))] gap-4">
     <template v-for="category in categories" :key="category.id">
-      <div v-if="hasBookmarks(category)">
+      <div v-if="hasBookmarks(category as ExpandedCategoriesResponse)">
         <a-typography is="h3" class="mb-3 dark:text-white">
           {{ category.name }}
         </a-typography>
 
         <ol class="rounded-md bg-gray-100 px-2 py-2 shadow-xs dark:bg-white/5">
           <li
-            v-for="bookmark in bookmarks(category)"
+            v-for="bookmark in bookmarks(
+              category as ExpandedCategoriesResponse,
+            )"
             :key="bookmark.id"
             class="rounded-sm px-2 py-1 transition-colors hover:bg-white/25 dark:hover:bg-white/5"
           >
@@ -23,7 +25,11 @@
 </template>
 
 <script setup lang="ts">
-import type { RecordModel } from "pocketbase";
+import type {
+  BookmarksResponse,
+  CategoriesResponse,
+  TeamsRecord,
+} from "~/lib/types";
 
 const { data: user } = useAuth();
 
@@ -36,34 +42,36 @@ const { data: teams } = pb.teams.list({
     .join("||"),
 });
 
-const { data: categoryList } = pb.categories.all({
+const { data: categoryResponse } = pb.categories.all({
   sort: "order",
   expand: "bookmarks_via_categories",
 });
 
+type ExpandedCategoriesResponse = CategoriesResponse<{
+  bookmarks_via_categories: BookmarksResponse[];
+}>;
+
 const categories = computed(() => {
   const ids = teams.value?.items.flatMap(
-    (team: RecordModel) => team.categories,
+    (team: TeamsRecord) => team.categories,
   );
 
-  return categoryList.value?.filter((cat: RecordModel) => {
+  return categoryResponse.value?.filter((cat) => {
     return ids?.includes(cat.id);
   });
 });
 
 const bookmarks = computed(() => {
-  return (category: RecordModel) => {
+  return (category: ExpandedCategoriesResponse) => {
     return category.expand?.bookmarks_via_categories.sort(
-      (a: RecordModel, b: RecordModel) => {
+      (a: BookmarksResponse, b: BookmarksResponse) => {
         return a.order - b.order;
       },
     );
   };
 });
 
-const hasBookmarks = computed(() => {
-  return (category: RecordModel) => {
-    return category.expand?.bookmarks_via_categories.length > 0;
-  };
-});
+function hasBookmarks(category: ExpandedCategoriesResponse) {
+  return category.expand?.bookmarks_via_categories.length > 0;
+}
 </script>

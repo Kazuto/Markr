@@ -1,31 +1,24 @@
-import type PocketBase from "pocketbase";
-import type { RecordListOptions, RecordOptions } from "pocketbase";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
+import { Collections } from "~/lib/types";
 
-export type UserData = {
-  name: string;
-  username: string;
-  email?: string;
-  avatar?: string;
-  is_admin?: boolean;
-  teams?: string[];
-};
+import type { RecordListOptions, RecordOptions } from "pocketbase";
+import type { TypedPocketBase, UsersRecord } from "~/lib/types";
 
-export function users(client: PocketBase) {
+export function users(client: TypedPocketBase) {
   const queryClient = useQueryClient();
 
-  const collection = "users";
+  const collection = Collections.Users;
 
   const page = ref(1);
   const perPage = ref(10);
 
-  const all = (client: PocketBase, options?: RecordListOptions) =>
+  const all = (client: TypedPocketBase, options?: RecordListOptions) =>
     useQuery({
       queryKey: [collection, options],
       queryFn: () => client.collection(collection).getFullList(options),
     });
 
-  const list = (client: PocketBase, options?: RecordListOptions) =>
+  const list = (client: TypedPocketBase, options?: RecordListOptions) =>
     useQuery({
       queryKey: [collection, options, perPage.value, page.value],
       queryFn: () =>
@@ -34,15 +27,15 @@ export function users(client: PocketBase) {
           .getList(page.value, perPage.value, options),
     });
 
-  const get = (client: PocketBase, id: string, options?: RecordOptions) =>
+  const get = (client: TypedPocketBase, id: string, options?: RecordOptions) =>
     useQuery({
       queryKey: [collection, id, options],
       queryFn: () => client.collection(collection).getOne(id, options),
     });
 
-  const update = (client: PocketBase) =>
+  const update = (client: TypedPocketBase) =>
     useMutation({
-      mutationFn: ({ id, data }: { id: string; data: UserData }) =>
+      mutationFn: ({ id, data }: { id: string; data: UsersRecord }) =>
         client.collection(collection).update(id, data),
     });
 
