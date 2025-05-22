@@ -7,6 +7,7 @@ export type UserData = {
   username: string;
   email?: string;
   avatar?: string;
+  is_admin?: boolean;
   teams?: string[];
 };
 

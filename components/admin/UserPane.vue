@@ -8,6 +8,7 @@
           <th>Name</th>
           <th>Username</th>
           <th>E-Mail</th>
+          <th>Admin</th>
           <th>Teams</th>
           <th class="text-right">Actions</th>
         </tr>
@@ -21,6 +22,13 @@
           <td>{{ item.name }}</td>
           <td>{{ item.username }}</td>
           <td>{{ item.email }}</td>
+          <td>
+            <fa
+              v-if="item.is_admin"
+              icon="fas fa-circle-check"
+              class="text-green-500"
+            />
+          </td>
           <td>
             {{ item.expand?.teams.map((t: TeamData) => t.name).join(", ") }}
           </td>

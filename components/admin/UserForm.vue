@@ -5,6 +5,10 @@
       <m-input id="username" v-model="form.username" name="username" />
       <m-input id="email" v-model="form.email" name="email" type="email" />
 
+      <a-toggle id="admin" v-model="form.is_admin" name="admin">
+        Is Admin
+      </a-toggle>
+
       <a-select
         v-if="teams?.items"
         id="teams"
@@ -50,6 +54,7 @@ const { form, fillForm, resetForm } = useForm<UserData>({
   name: "",
   username: "",
   email: "",
+  is_admin: false,
   teams: [],
 });
 
@@ -66,6 +71,7 @@ watch(
       name: value.name,
       username: value.username,
       email: value.email,
+      is_admin: value.is_admin,
       teams: value.teams,
     });
   },
