@@ -40,7 +40,7 @@ defineProps<{
 
 const router = useRouter();
 
-const activeTab: Ref<keyof Tabs> = ref("Categories");
+const activeTab = defineModel<string>();
 
 const { uppercase } = useHelper();
 
