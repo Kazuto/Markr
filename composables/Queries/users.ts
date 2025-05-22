@@ -19,6 +19,12 @@ export function users(client: PocketBase) {
   const page = ref(1);
   const perPage = ref(10);
 
+  const all = (client: PocketBase, options?: RecordListOptions) =>
+    useQuery({
+      queryKey: [collection, options],
+      queryFn: () => client.collection(collection).getFullList(options),
+    });
+
   const list = (client: PocketBase, options?: RecordListOptions) =>
     useQuery({
       queryKey: [collection, options, perPage.value, page.value],
@@ -51,6 +57,7 @@ export function users(client: PocketBase) {
   });
 
   return {
+    all: (options?: RecordListOptions) => all(client, options),
     list: (options?: RecordListOptions) => list(client, options),
     get: (id: string, options?: RecordOptions) => get(client, id, options),
     update: () => update(client),
