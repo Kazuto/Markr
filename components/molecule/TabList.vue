@@ -26,7 +26,7 @@
       </li>
     </ul>
 
-    <component :is="tabs[activeTab as keyof Tabs]" />
+    <component :is="tabs[activeTab as keyof Tabs]" :id="activeTab" />
   </div>
 </template>
 
@@ -42,13 +42,11 @@ const router = useRouter();
 
 const activeTab = defineModel<string>();
 
-const { uppercase } = useHelper();
-
 onMounted(() => {
   if (router.currentRoute.value.hash) {
     const hash = router.currentRoute.value.hash.slice(1);
 
-    activeTab.value = uppercase(hash) as keyof Tabs;
+    activeTab.value = hash as keyof Tabs;
   }
 });
 
