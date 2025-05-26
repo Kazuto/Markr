@@ -3,6 +3,15 @@
     <div class="space-y-2">
       <m-input id="name" v-model="form.name" name="name" />
 
+      <a-select
+        v-if="categories?.items"
+        id="categories"
+        v-model="form.categories"
+        multiple
+        name="categories"
+        :options="dropdownOptions"
+      />
+
       <div class="flex justify-end">
         <a-button @click="submit">{{ buttonText }}</a-button>
       </div>
@@ -25,6 +34,18 @@ const pb = usePocketBase();
 
 const { form, fillForm, resetForm } = useForm<TeamsRecord>({
   name: "",
+  categories: [],
+});
+
+const { data: categories } = pb.categories.list();
+
+const dropdownOptions = computed(() => {
+  if (!categories.value?.items.length) return [];
+
+  return categories.value?.items.map((c) => ({
+    label: c.name,
+    value: c.id,
+  }));
 });
 
 watch(
@@ -38,6 +59,7 @@ watch(
 
     fillForm({
       name: value.name,
+      categories: value.categories,
     });
   },
 );
