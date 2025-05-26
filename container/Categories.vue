@@ -25,10 +25,10 @@
 </template>
 
 <script setup lang="ts">
-import {
-  type BookmarksResponse,
-  type CategoriesResponse,
-  type TeamsRecord,
+import type {
+  BookmarksResponse,
+  CategoriesResponse,
+  TeamsRecord,
 } from "~/lib/types";
 
 const { data: user } = useAuth();
