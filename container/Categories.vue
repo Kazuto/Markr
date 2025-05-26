@@ -25,10 +25,10 @@
 </template>
 
 <script setup lang="ts">
-import type {
-  BookmarksResponse,
-  CategoriesResponse,
-  TeamsRecord,
+import {
+  type BookmarksResponse,
+  type CategoriesResponse,
+  type TeamsRecord,
 } from "~/lib/types";
 
 const { data: user } = useAuth();
@@ -74,4 +74,14 @@ const bookmarks = computed(() => {
 function hasBookmarks(category: ExpandedCategoriesResponse) {
   return category.expand?.bookmarks_via_categories.length > 0;
 }
+
+onMounted(() => {
+  pb.categories.subscribe();
+  pb.bookmarks.subscribe();
+});
+
+onUnmounted(() => {
+  pb.categories.unsubscribe();
+  pb.bookmarks.unsubscribe();
+});
 </script>

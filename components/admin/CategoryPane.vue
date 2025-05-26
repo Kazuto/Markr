@@ -86,6 +86,14 @@ const { mutate: mutateDelete } = pb.categories.destroy();
 const deleteCategory = (id: string) => {
   mutateDelete(id);
 };
+
+onMounted(() => {
+  pb.categories.subscribe();
+});
+
+onUnmounted(() => {
+  pb.categories.unsubscribe();
+});
 </script>
 
 <style scoped></style>

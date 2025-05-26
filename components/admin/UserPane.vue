@@ -82,6 +82,14 @@ function closeModal() {
   open.value = false;
   user.value = undefined;
 }
-</script>
 
-<style scoped></style>
+onMounted(() => {
+  pb.users.subscribe();
+  pb.teams.subscribe();
+});
+
+onUnmounted(() => {
+  pb.users.unsubscribe();
+  pb.teams.unsubscribe();
+});
+</script>

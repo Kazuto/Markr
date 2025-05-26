@@ -85,6 +85,16 @@ function closeModal() {
   open.value = false;
   bookmark.value = undefined;
 }
+
+onMounted(() => {
+  pb.bookmarks.subscribe();
+  pb.categories.subscribe();
+});
+
+onUnmounted(() => {
+  pb.bookmarks.unsubscribe();
+  pb.categories.unsubscribe();
+});
 </script>
 
 <style scoped></style>

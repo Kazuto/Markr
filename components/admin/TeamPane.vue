@@ -12,16 +12,24 @@
           class="[&>th]:bg-gray-200 [&>th]:px-3 [&>th]:py-2 [&>th:first-child]:rounded-l-sm [&>th:last-child]:rounded-r-sm"
         >
           <th>Name</th>
+          <th>Categories</th>
           <th class="text-right">Actions</th>
         </tr>
       </thead>
       <tbody class="[&>tr:nth-child(even)]:bg-gray-100">
         <tr
-          v-for="item in teams?.items"
+          v-for="item in teams?.items as ExpandedTeamsResponse[]"
           :key="item.id"
           class="[&>td]:px-3 [&>td]:py-2 [&>td:first-child]:rounded-l-sm [&>td:last-child]:rounded-r-sm"
         >
           <td>{{ item.name }}</td>
+          <td>
+            {{
+              item.expand?.categories
+                .map((c: CategoriesResponse) => c.name)
+                .join(", ")
+            }}
+          </td>
           <td>
             <div class="flex items-end justify-end space-x-1">
               <a-button icon @click="openModal(item)">
@@ -43,13 +51,18 @@
 </template>
 
 <script setup lang="ts">
-import type { TeamsResponse } from "~/lib/types";
+import type { CategoriesResponse, TeamsResponse } from "~/lib/types";
 
 const pb = usePocketBase();
 
 const { data: teams } = pb.teams.list({
   sort: "name",
+  expand: "categories",
 });
+
+type ExpandedTeamsResponse = TeamsResponse<{
+  categories: CategoriesResponse[];
+}>;
 
 const open = ref(false);
 
@@ -74,6 +87,14 @@ const { mutate: mutateDelete } = pb.teams.destroy();
 const deleteTeam = (id: string) => {
   mutateDelete(id);
 };
-</script>
 
-<style scoped></style>
+onMounted(() => {
+  pb.teams.subscribe();
+  pb.categories.subscribe();
+});
+
+onUnmounted(() => {
+  pb.teams.unsubscribe();
+  pb.categories.unsubscribe();
+});
+</script>
