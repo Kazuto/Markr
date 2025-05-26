@@ -12,13 +12,13 @@ export function categories(client: TypedPocketBase) {
   const page = ref(1);
   const perPage = ref(10);
 
-  const all = (client: TypedPocketBase, options?: RecordListOptions) =>
+  const all = (options?: RecordListOptions) =>
     useQuery({
       queryKey: [collection, options],
       queryFn: () => client.collection(collection).getFullList(options),
     });
 
-  const list = (client: TypedPocketBase, options?: RecordListOptions) =>
+  const list = (options?: RecordListOptions) =>
     useQuery({
       queryKey: [collection, options, perPage.value, page.value],
       queryFn: () =>
@@ -27,46 +27,48 @@ export function categories(client: TypedPocketBase) {
           .getList(page.value, perPage.value, options),
     });
 
-  const get = (client: TypedPocketBase, id: string, options?: RecordOptions) =>
+  const get = (id: string, options?: RecordOptions) =>
     useQuery({
       queryKey: [collection, id, options],
       queryFn: () => client.collection(collection).getOne(id, options),
     });
 
-  const create = (client: TypedPocketBase) =>
+  const create = () =>
     useMutation({
       mutationFn: (data: CategoriesRecord) =>
         client.collection(collection).create(data),
     });
 
-  const update = (client: TypedPocketBase) =>
+  const update = () =>
     useMutation({
       mutationFn: ({ id, data }: { id: string; data: CategoriesRecord }) =>
         client.collection(collection).update(id, data),
     });
 
-  const destroy = (client: TypedPocketBase) =>
+  const destroy = () =>
     useMutation({
       mutationFn: (id: string) => client.collection(collection).delete(id),
     });
 
-  onMounted(() => {
+  const subscribe = () => {
     client.collection(collection).subscribe("*", function () {
       queryClient.invalidateQueries({ queryKey: [collection] });
     });
-  });
+  };
 
-  onUnmounted(() => {
+  const unsubscribe = () => {
     client.collection(collection).unsubscribe("*");
-  });
+  };
 
   return {
-    all: (options?: RecordListOptions) => all(client, options),
-    list: (options?: RecordListOptions) => list(client, options),
-    get: (id: string, options?: RecordOptions) => get(client, id, options),
-    create: () => create(client),
-    update: () => update(client),
-    destroy: () => destroy(client),
+    all,
+    list,
+    get,
+    create,
+    update,
+    destroy,
+    subscribe,
+    unsubscribe,
     page,
     perPage,
   };

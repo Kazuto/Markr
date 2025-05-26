@@ -12,13 +12,13 @@ export function users(client: TypedPocketBase) {
   const page = ref(1);
   const perPage = ref(10);
 
-  const all = (client: TypedPocketBase, options?: RecordListOptions) =>
+  const all = (options?: RecordListOptions) =>
     useQuery({
       queryKey: [collection, options],
       queryFn: () => client.collection(collection).getFullList(options),
     });
 
-  const list = (client: TypedPocketBase, options?: RecordListOptions) =>
+  const list = (options?: RecordListOptions) =>
     useQuery({
       queryKey: [collection, options, perPage.value, page.value],
       queryFn: () =>
@@ -27,33 +27,35 @@ export function users(client: TypedPocketBase) {
           .getList(page.value, perPage.value, options),
     });
 
-  const get = (client: TypedPocketBase, id: string, options?: RecordOptions) =>
+  const get = (id: string, options?: RecordOptions) =>
     useQuery({
       queryKey: [collection, id, options],
       queryFn: () => client.collection(collection).getOne(id, options),
     });
 
-  const update = (client: TypedPocketBase) =>
+  const update = () =>
     useMutation({
       mutationFn: ({ id, data }: { id: string; data: UsersRecord }) =>
         client.collection(collection).update(id, data),
     });
 
-  onMounted(() => {
+  const subscribe = () => {
     client.collection(collection).subscribe("*", function () {
       queryClient.invalidateQueries({ queryKey: [collection] });
     });
-  });
+  };
 
-  onUnmounted(() => {
+  const unsubscribe = () => {
     client.collection(collection).unsubscribe("*");
-  });
+  };
 
   return {
-    all: (options?: RecordListOptions) => all(client, options),
-    list: (options?: RecordListOptions) => list(client, options),
-    get: (id: string, options?: RecordOptions) => get(client, id, options),
-    update: () => update(client),
+    all,
+    list,
+    get,
+    update,
+    subscribe,
+    unsubscribe,
     page,
     perPage,
   };
