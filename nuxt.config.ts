@@ -8,6 +8,14 @@ export default defineNuxtConfig({
     },
   },
 
+  colorMode: {
+    preference: "system",
+    fallback: "dark",
+    classPrefix: "",
+    classSuffix: "",
+    storageKey: "theme",
+  },
+
   compatibilityDate: "2025-05-09",
 
   components: [
@@ -22,7 +30,7 @@ export default defineNuxtConfig({
   devServer: { port: Number(process.env.PORT) || 3000 },
   devtools: { enabled: true },
 
-  modules: ["@nuxt/eslint", "@vueuse/nuxt"],
+  modules: ["@nuxt/eslint", "@vueuse/nuxt", "@nuxtjs/color-mode"],
 
   nitro: {
     compressPublicAssets: true,
