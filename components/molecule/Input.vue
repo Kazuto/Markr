@@ -1,13 +1,15 @@
 <template>
   <div>
-    <a-label :for="id">
+    <a-label :for="id" :aria-label="`input-label-${name}`" :disabled>
       {{ name }}
     </a-label>
     <a-input
       v-bind="$attrs"
       :id
       v-model="model"
-      class="mt-1 w-full rounded-md border border-gray-300 bg-gray-50 px-3 py-3 text-sm focus:outline-2 focus:outline-offset-3 focus:outline-gray-500"
+      :disabled
+      class="mt-1"
+      :aria-labelledby="`input-label-${name}`"
     />
   </div>
 </template>
@@ -18,6 +20,7 @@ const model = defineModel<string | number | undefined>();
 defineProps<{
   id: string;
   name: string;
+  disabled?: boolean;
 }>();
 
 defineOptions({

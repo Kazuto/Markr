@@ -1,6 +1,6 @@
 <template>
   <div class="relative">
-    <a-label :for="id" :aria-label="`listbox-label-${name}`">
+    <a-label :for="id" :disabled :aria-label="`listbox-label-${name}`">
       {{ name }}
     </a-label>
 
@@ -9,9 +9,14 @@
     <div
       :aria-labelledby="`listbox-label-${name}`"
       role="listbox"
-      class="mt-1 w-full cursor-pointer rounded-md border border-gray-300 bg-gray-50 px-3 py-3 text-sm text-gray-700 focus:outline-2 focus:outline-offset-3 focus:outline-gray-500"
-      tabindex="0"
-      @click="open = !open"
+      class="mt-1 w-full rounded-md border border-gray-300 bg-gray-50 px-3 py-3 text-sm text-gray-700 focus:outline-2 focus:outline-offset-3 focus:outline-gray-500"
+      :class="{
+        'cursor-pointer': !disabled,
+        'cursor-not-allowed bg-gray-100 opacity-50 focus:outline-none':
+          disabled,
+      }"
+      :tabindex="disabled ? -1 : 0"
+      @click="() => toggle"
     >
       <div class="flex w-full items-start gap-1">
         <div class="flex grow flex-wrap gap-1">
@@ -24,6 +29,9 @@
             v-else
             :key="index"
             class="group rounded bg-gray-200 px-1.5 py-0.5 text-xs transition-colors select-none hover:bg-gray-300"
+            :class="{
+              'pointer-events-none': disabled,
+            }"
             @click.stop="clear(index)"
           >
             {{ text }}
@@ -76,6 +84,7 @@ const props = withDefaults(
     name: string;
     placeholder?: string;
     options: Option[];
+    disabled?: boolean;
     multiple?: boolean;
   }>(),
   {
@@ -87,6 +96,12 @@ const props = withDefaults(
 const emit = defineEmits(["update:modelValue"]);
 
 const open = ref(false);
+
+function toggle() {
+  if (props.disabled) return;
+
+  open.value = !open.value;
+}
 
 const isSelected = (option: Option) => {
   return Array.isArray(model.value) && model.value.includes(option.value);
@@ -113,6 +128,8 @@ const selectOption = (option: Option) => {
 };
 
 const clear = (index: number) => {
+  if (props.disabled) return;
+
   const selected = Array.isArray(model.value) ? [...model.value] : [];
 
   selected.splice(index, 1);
