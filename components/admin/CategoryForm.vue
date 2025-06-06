@@ -1,20 +1,18 @@
 <template>
-  <div class="flex flex-col gap-4">
-    <div class="space-y-2">
-      <m-input id="name" v-model="form.name" name="name" class="grow" />
-      <m-input id="order" v-model="form.order" name="order" type="number" />
-      <m-input id="color" v-model="form.color" name="color" />
-      <m-input id="icon" v-model="form.icon" name="icon" />
+  <div class="space-y-3">
+    <m-input id="name" v-model="form.name" name="name" class="grow" />
+    <m-input id="order" v-model="form.order" name="order" type="number" />
+    <m-input id="color" v-model="form.color" name="color" />
+    <m-input id="icon" v-model="form.icon" name="icon" />
 
-      <div class="flex justify-end">
-        <a-button @click="submit">{{ buttonText }}</a-button>
-      </div>
+    <div class="flex justify-end">
+      <a-button @click="submit">{{ buttonText }}</a-button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { CategoriesResponse, CategoriesRecord } from "~/lib/types";
+import type { CategoriesResponse, CategoriesRecord } from "~/lib/pocketbase";
 
 const props = defineProps<{
   category?: CategoriesResponse;
@@ -40,7 +38,12 @@ const { form, fillForm, resetForm } = useForm<CategoriesRecord>({
 const order = computed(() => {
   if (!categories?.value?.items.length) return 0;
 
-  return Math.max(0, ...categories.value.items.map((c) => c.order)) + 1;
+  return (
+    Math.max(
+      0,
+      ...categories.value.items.map((c: CategoriesResponse) => c.order),
+    ) + 1
+  );
 });
 
 watch(

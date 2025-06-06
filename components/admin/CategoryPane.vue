@@ -53,7 +53,7 @@
 </template>
 
 <script setup lang="ts">
-import type { CategoriesResponse } from "~/lib/types";
+import type { CategoriesResponse } from "~/lib/pocketbase";
 
 const pb = usePocketBase();
 

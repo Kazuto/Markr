@@ -52,7 +52,7 @@
 </template>
 
 <script setup lang="ts">
-import type { BookmarksResponse } from "~/lib/types";
+import type { BookmarksResponse } from "~/lib/pocketbase";
 
 const pb = usePocketBase();
 

@@ -2,7 +2,7 @@ import { bookmarks } from "./bookmarks";
 import { categories } from "./categories";
 import { teams } from "./teams";
 import { users } from "./users";
-import type { TypedPocketBase } from "~/lib/types";
+import type { TypedPocketBase } from "~/lib/pocketbase";
 
 export default (client: TypedPocketBase) => {
   return {

@@ -2,19 +2,23 @@
   <div class="grid grid-cols-[repeat(auto-fill,minmax(450px,1fr))] gap-4">
     <template v-for="category in categories" :key="category.id">
       <div v-if="hasBookmarks(category as ExpandedCategoriesResponse)">
-        <a-typography is="h3" class="mb-3 dark:text-white">
+        <a-typography is="h3" class="mb-3">
           {{ category.name }}
         </a-typography>
 
-        <ol class="rounded-md bg-gray-100 px-2 py-2 shadow-xs dark:bg-white/5">
+        <ol class="space-y-2">
           <li
             v-for="bookmark in bookmarks(
               category as ExpandedCategoriesResponse,
             )"
             :key="bookmark.id"
-            class="rounded-sm px-2 py-1 transition-colors hover:bg-white/25 dark:hover:bg-white/5"
+            class="group rounded-md bg-gray-100 px-4 py-3 shadow-xs transition-colors hover:bg-white/25 dark:bg-white/5 dark:hover:bg-white/15"
           >
-            <a-link :href="bookmark.url" target="_blank" class="block">
+            <a-link
+              :href="bookmark.url"
+              target="_blank"
+              class="block truncate rounded-sm"
+            >
               {{ bookmark.name }}
             </a-link>
           </li>
@@ -29,7 +33,7 @@ import type {
   BookmarksResponse,
   CategoriesResponse,
   TeamsRecord,
-} from "~/lib/types";
+} from "~/lib/pocketbase";
 
 const { data: user } = useAuth();
 
@@ -56,7 +60,7 @@ const categories = computed(() => {
     (team: TeamsRecord) => team.categories,
   );
 
-  return categoryResponse.value?.filter((cat) => {
+  return categoryResponse.value?.filter((cat: CategoriesResponse) => {
     return ids?.includes(cat.id);
   });
 });

@@ -1,29 +1,31 @@
 <template>
-  <div class="flex flex-col gap-4">
-    <div class="space-y-2">
-      <m-input id="name" v-model="form.name" name="name" class="grow" />
-      <m-input id="url" v-model="form.url" name="url" />
-      <m-input id="order" v-model="form.order" name="order" type="number" />
-      <m-input id="icon" v-model="form.icon" name="icon" />
+  <div class="space-y-3">
+    <m-input id="name" v-model="form.name" name="name" class="grow" />
+    <m-input id="url" v-model="form.url" name="url" />
+    <m-input id="order" v-model="form.order" name="order" type="number" />
+    <m-input id="icon" v-model="form.icon" name="icon" />
 
-      <a-select
-        v-if="categories?.items"
-        id="categories"
-        v-model="form.categories"
-        multiple
-        name="categories"
-        :options="dropdownOptions"
-      />
+    <a-select
+      v-if="categories?.items"
+      id="categories"
+      v-model="form.categories"
+      multiple
+      name="categories"
+      :options="dropdownOptions"
+    />
 
-      <div class="flex justify-end">
-        <a-button @click="submit">{{ buttonText }}</a-button>
-      </div>
+    <div class="flex justify-end">
+      <a-button @click="submit">{{ buttonText }}</a-button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { BookmarksRecord, BookmarksResponse } from "~/lib/types";
+import type {
+  BookmarksRecord,
+  BookmarksResponse,
+  CategoriesResponse,
+} from "~/lib/pocketbase";
 
 const props = defineProps<{
   bookmark?: BookmarksResponse;
@@ -44,7 +46,7 @@ const { data: categories } = pb.categories.list();
 const dropdownOptions = computed(() => {
   if (!categories.value?.items.length) return [];
 
-  return categories.value?.items.map((c) => ({
+  return categories.value?.items.map((c: CategoriesResponse) => ({
     label: c.name,
     value: c.id,
   }));

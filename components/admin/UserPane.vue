@@ -52,7 +52,7 @@
 </template>
 
 <script setup lang="ts">
-import type { TeamsResponse, UsersResponse } from "~/lib/types";
+import type { TeamsResponse, UsersResponse } from "~/lib/pocketbase";
 
 const pb = usePocketBase();
 

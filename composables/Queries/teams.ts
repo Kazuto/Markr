@@ -1,8 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
-import { Collections } from "~/lib/types";
+import { Collections } from "~/lib/pocketbase";
 
 import type { RecordListOptions, RecordOptions } from "pocketbase";
-import type { TypedPocketBase, TeamsRecord } from "~/lib/types";
+import type { TypedPocketBase, TeamsRecord } from "~/lib/pocketbase";
 
 export function teams(client: TypedPocketBase) {
   const queryClient = useQueryClient();

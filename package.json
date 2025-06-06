@@ -13,7 +13,7 @@
     "lint": "bun lint:eslint && bun lint:prettier",
     "lint:eslint": "eslint . --fix",
     "lint:prettier": "prettier --write --list-different .",
-    "typegen": "pocketbase-typegen --db ./pb_data/data.db --out ./lib/types.d.ts"
+    "typegen": "pocketbase-typegen --db ./pb_data/data.db --out ./lib/pocketbase.d.ts"
   },
   "dependencies": {
     "@fortawesome/free-brands-svg-icons": "^6.7.2",
