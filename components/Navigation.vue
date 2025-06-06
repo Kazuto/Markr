@@ -10,7 +10,7 @@
       :class="{ '!hidden': item.hidden }"
       :to="item.to"
     >
-      <fa :icon="item.icon" />
+      <fa v-if="item.icon" :icon="item.icon" />
     </nuxt-link>
 
     <a
