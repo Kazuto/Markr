@@ -6,6 +6,7 @@
       small
       :aria-label="`Switch to ${getNextTheme} mode`"
       @click="setTheme()"
+      class="bg-transparent hover:bg-gray-300 dark:text-gray-300 dark:hover:bg-gray-900"
     >
       <fa :icon="{ prefix: 'fas', iconName: icon }" />
     </a-button>
