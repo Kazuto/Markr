@@ -10,6 +10,7 @@ import Bookmarks from "~/components/admin/BookmarkPane.vue";
 import Teams from "~/components/admin/TeamPane.vue";
 import Users from "~/components/admin/UserPane.vue";
 import type { Tabs } from "~/components/molecule/TabList.vue";
+import { capitalize } from "~/shared/utils";
 
 const tabs = {
   categories: Categories,
@@ -20,11 +21,9 @@ const tabs = {
 
 const activeTab: Ref<keyof typeof tabs> = ref("categories");
 
-const { uppercase } = useHelper();
-
 const title = computed(() => {
   if (!activeTab.value) return;
 
-  return uppercase(activeTab.value) as keyof Tabs;
+  return capitalize(activeTab.value) as keyof Tabs;
 });
 </script>
