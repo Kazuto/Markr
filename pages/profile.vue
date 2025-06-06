@@ -29,5 +29,3 @@ function updateUser() {
   });
 }
 </script>
-
-<style scoped></style>

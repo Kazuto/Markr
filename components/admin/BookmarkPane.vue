@@ -101,5 +101,3 @@ onUnmounted(() => {
   pb.categories.unsubscribe();
 });
 </script>
-
-<style scoped></style>
