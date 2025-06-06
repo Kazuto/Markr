@@ -16,7 +16,7 @@
       <li
         v-for="(_, tab) in tabs"
         :key="tab"
-        class="cursor-pointer rounded-lg px-3 py-2 capitalize transition-colors hover:bg-gray-200"
+        class="cursor-pointer rounded-lg px-3 py-2 text-gray-700 capitalize transition-colors hover:bg-gray-200"
         :class="{
           'pointer-events-none bg-gray-300 font-bold': activeTab === tab,
         }"

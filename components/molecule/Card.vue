@@ -1,12 +1,15 @@
 <template>
   <div class="flex w-full flex-col rounded-2xl bg-gray-50 p-8 shadow-xl">
-    <h2 v-if="title" class="mb-6 text-3xl font-bold text-neutral-800">
+    <a-typography
+      is="h2"
+      large
+      v-if="title"
+      class="mb-6 font-semibold dark:text-gray-700"
+    >
       {{ title }}
-    </h2>
+    </a-typography>
 
-    <div class="text-neutral-300 dark:text-neutral-950">
-      <slot />
-    </div>
+    <slot />
   </div>
 </template>
 

@@ -6,7 +6,7 @@
       </a-button>
     </div>
 
-    <table class="w-full text-left">
+    <table class="w-full text-left text-gray-700">
       <thead>
         <tr
           class="[&>th]:bg-gray-200 [&>th]:px-3 [&>th]:py-2 [&>th:first-child]:rounded-l-sm [&>th:last-child]:rounded-r-sm"
