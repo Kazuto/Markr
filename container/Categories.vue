@@ -14,12 +14,11 @@
               category as ExpandedCategoriesResponse,
             )"
             :key="bookmark.id"
-            class="group rounded-md bg-gray-100 px-4 py-3 shadow-xs transition-colors hover:bg-white/25 dark:bg-white/5 dark:hover:bg-white/15"
           >
             <a-link
               :href="bookmark.url"
               target="_blank"
-              class="block truncate rounded-sm"
+              class="block truncate rounded-sm bg-gray-100 px-4 py-3 shadow-xs transition-colors outline-none hover:bg-gray-50 focus:bg-gray-50 focus:ring-2 focus:ring-gray-50 focus:ring-offset-3 focus:ring-offset-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:bg-gray-600 dark:focus:ring-gray-600 dark:focus:ring-offset-gray-800"
             >
               <fa v-if="bookmark.icon" :icon="bookmark.icon" class="mr-1" />
 
