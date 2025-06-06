@@ -3,7 +3,13 @@
     <m-input id="name" v-model="form.name" name="name" class="grow" />
     <m-input id="order" v-model="form.order" name="order" type="number" />
     <m-input id="color" v-model="form.color" name="color" />
-    <m-input id="icon" v-model="form.icon" name="icon" />
+    <m-input id="icon" v-model="form.icon" name="icon">
+      <template #append>
+        <td>
+          <fa v-if="form.icon" :icon="{ prefix: 'fas', iconName: form.icon }" />
+        </td>
+      </template>
+    </m-input>
 
     <div class="flex justify-end">
       <a-button @click="submit">{{ buttonText }}</a-button>

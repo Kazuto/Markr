@@ -3,6 +3,8 @@
     <template v-for="category in categories" :key="category.id">
       <div v-if="hasBookmarks(category as ExpandedCategoriesResponse)">
         <a-typography is="h3" class="mb-3">
+          <fa v-if="category.icon" :icon="category.icon" class="mr-1" />
+
           {{ category.name }}
         </a-typography>
 
@@ -19,6 +21,8 @@
               target="_blank"
               class="block truncate rounded-sm"
             >
+              <fa v-if="bookmark.icon" :icon="bookmark.icon" class="mr-1" />
+
               {{ bookmark.name }}
             </a-link>
           </li>

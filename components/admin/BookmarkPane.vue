@@ -26,13 +26,18 @@
           <td>{{ item.name }}</td>
           <td>{{ item.url }}</td>
           <td>{{ item.order }}</td>
-          <td>{{ item.icon }}</td>
+          <td>
+            <fa
+              v-if="item.icon"
+              :icon="{ prefix: 'fas', iconName: item.icon }"
+            />
+          </td>
           <td>
             <div class="flex items-end justify-end space-x-1">
-              <a-button icon @click="openModal(item)">
+              <a-button icon small @click="openModal(item)">
                 <fa icon="fas fa-pencil" />
               </a-button>
-              <a-button icon destructive @click="deleteBookmark(item.id)">
+              <a-button icon small destructive @click="deleteBookmark(item.id)">
                 <fa icon="fas fa-trash" />
               </a-button>
             </div>

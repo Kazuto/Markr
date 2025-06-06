@@ -36,7 +36,11 @@
           </td>
           <td>
             <div class="flex items-end justify-end space-x-1">
-              <a-button icon @click="openModal(item as ExpandedUsersResponse)">
+              <a-button
+                icon
+                small
+                @click="openModal(item as ExpandedUsersResponse)"
+              >
                 <fa icon="fas fa-pencil" />
               </a-button>
             </div>

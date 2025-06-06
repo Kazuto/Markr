@@ -32,10 +32,10 @@
           </td>
           <td>
             <div class="flex items-end justify-end space-x-1">
-              <a-button icon @click="openModal(item)">
+              <a-button icon small @click="openModal(item)">
                 <fa icon="fas fa-pencil" />
               </a-button>
-              <a-button icon destructive @click="deleteTeam(item.id)">
+              <a-button icon small destructive @click="deleteTeam(item.id)">
                 <fa icon="fas fa-trash" />
               </a-button>
             </div>
