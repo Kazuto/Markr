@@ -6,6 +6,7 @@
       :checked="model"
       :disabled="disabled"
       tabindex="-1"
+      :name
     />
     <div
       class="flex h-5 w-8 items-center rounded-full p-1 transition-colors duration-300 focus:outline-2 focus:outline-offset-3 focus:outline-gray-500"
@@ -16,6 +17,8 @@
         'cursor-not-allowed opacity-50': disabled,
       }"
       @click="model = !model"
+      @keydown.enter="model = !model"
+      @keydown.space="model = !model"
     >
       <div
         class="h-3 w-3 transform rounded-full bg-white shadow-md transition-transform duration-300"
@@ -26,12 +29,13 @@
       />
     </div>
 
-    <span
-      class="block text-sm font-medium text-gray-700 capitalize select-none"
+    <a-label
+      :for="name"
+      class="cursor-pointer select-none"
       @click="model = !model"
     >
       <slot />
-    </span>
+    </a-label>
   </label>
 </template>
 
@@ -41,8 +45,8 @@ const model = defineModel<boolean>();
 defineProps<{
   disabled?: boolean;
 }>();
-</script>
 
-<style scoped>
-/* No additional styles needed */
-</style>
+const name = computed(() => {
+  return `toggle-${useId()}`;
+});
+</script>
