@@ -3,7 +3,7 @@
     ref="dialog"
     class="relative m-auto w-full max-w-xl space-y-4 rounded-2xl bg-gray-50 p-8 shadow-xl backdrop:bg-black/50 backdrop:backdrop-blur"
   >
-    <a-typography is="p" size="small" class="font-bold">
+    <a-typography is="h4" medium class="font-bold dark:text-gray-700">
       {{ title }}
     </a-typography>
 

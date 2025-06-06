@@ -1,10 +1,5 @@
 <template>
-  <a-typography
-    is="h1"
-    v-if="data"
-    size="large"
-    class="mt-4 mb-12 dark:text-white"
-  >
+  <a-typography is="h1" v-if="data" large class="mt-4 mb-12 dark:text-white">
     Hello {{ data.name || data.username }}!
   </a-typography>
 

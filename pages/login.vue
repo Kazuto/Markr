@@ -4,7 +4,7 @@
   >
     <m-card title="Sign In">
       <div v-if="providers" class="flex flex-col gap-4">
-        <a-typography is="p" size="small">
+        <a-typography is="p" small class="dark:text-gray-700">
           Choose a sign-in method:
         </a-typography>
 
