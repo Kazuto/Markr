@@ -1,18 +1,12 @@
 <template>
-  <component
-    :is
-    class="text-gray-700 dark:text-gray-700"
-    :class="{
-      'text-md': size === 'small',
-      'text-xl tracking-tight': size === 'medium',
-      'text-4xl font-medium tracking-tighter': size === 'large',
-    }"
-  >
+  <component :is :class="variants({ size, class: $attrs.class as string })">
     <slot />
   </component>
 </template>
 
 <script setup lang="ts">
+import { tv } from "tailwind-variants";
+
 withDefaults(
   defineProps<{
     is?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "span";
@@ -23,4 +17,15 @@ withDefaults(
     size: "medium",
   },
 );
+
+const variants = tv({
+  base: "text-gray-700  dark:text-gray-300",
+  variants: {
+    size: {
+      small: "text-md",
+      medium: "text-xl tracking-tight",
+      large: "text-4xl font-medium tracking-tighter",
+    },
+  },
+});
 </script>
