@@ -19,9 +19,9 @@
         'bg-gray-300': !model,
         'cursor-not-allowed opacity-50 focus:outline-none': disabled,
       }"
-      @click="() => toggle"
-      @keydown.enter="() => toggle"
-      @keydown.space="() => toggle"
+      @click="toggle"
+      @keydown.enter="toggle"
+      @keydown.space="toggle"
     >
       <div
         class="h-3 w-3 transform rounded-full bg-white shadow-md transition-transform duration-300"
@@ -37,7 +37,7 @@
       class="select-none"
       :aria-label="`toggle-label-${name}`"
       :disabled
-      @click="() => toggle"
+      @click="toggle"
     >
       <slot />
     </a-label>

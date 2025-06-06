@@ -16,7 +16,7 @@
           disabled,
       }"
       :tabindex="disabled ? -1 : 0"
-      @click="() => toggle"
+      @click="toggle"
     >
       <div class="flex w-full items-start gap-1">
         <div class="flex grow flex-wrap gap-1">
